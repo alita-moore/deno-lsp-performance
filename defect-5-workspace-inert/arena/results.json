@@ -1,0 +1,1125 @@
+[
+  {
+    "id": "W1",
+    "title": "npm-only member, not named by deno.json",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p01",
+          "packages/p02"
+        ],
+        "lost_named": [
+          "packages/p01",
+          "packages/p02"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p01/, <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p01",
+          "packages/p02"
+        ],
+        "lost_named": [
+          "packages/p01",
+          "packages/p02"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p01/, <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p01",
+        "verdict": "diagnosed",
+        "detached": true,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "lost_named": [
+          ".",
+          "packages/p02"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p01/, <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them.",
+          "Warning: config file <root>/packages/p01/deno.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      },
+      {
+        "start": "packages/p02",
+        "verdict": "diagnosed",
+        "detached": true,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "lost_named": [
+          ".",
+          "packages/p01"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p01/, <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them.",
+          "Warning: config file <root>/packages/p02/package.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W2",
+    "title": "drift: member added to package.json coverage, deno.json not updated",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p02"
+        ],
+        "lost_named": [
+          "packages/p02"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p02"
+        ],
+        "lost_named": [
+          "packages/p02"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p01",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p02"
+        ],
+        "lost_named": [
+          "packages/p02"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p02",
+        "verdict": "diagnosed",
+        "detached": true,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "lost_named": [
+          "."
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them.",
+          "Warning: config file <root>/packages/p02/deno.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W3",
+    "title": "deno.json declares an empty workspace array",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "."
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p00",
+          "packages/p01"
+        ],
+        "lost_named": [
+          "packages/p00",
+          "packages/p01"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p00/, <root>/packages/p01/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "diagnosed",
+        "detached": true,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p00"
+        ],
+        "patched_error": null,
+        "lost": [
+          ".",
+          "packages/p01"
+        ],
+        "lost_named": [
+          ".",
+          "packages/p01"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p00/, <root>/packages/p01/. Add them to the root deno.json \"workspace\" field to include them.",
+          "Warning: config file <root>/packages/p00/deno.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      },
+      {
+        "start": "packages/p01",
+        "verdict": "diagnosed",
+        "detached": true,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [
+          ".",
+          "packages/p00"
+        ],
+        "lost_named": [
+          ".",
+          "packages/p00"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p00/, <root>/packages/p01/. Add them to the root deno.json \"workspace\" field to include them.",
+          "Warning: config file <root>/packages/p01/deno.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W4",
+    "title": "nested workspace: a declared member declares its own",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p01"
+        ],
+        "lost_named": [
+          "packages/p01"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p01/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          "packages/p00",
+          "packages/p00/sub/s0"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p00",
+          "packages/p00/sub/s0"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      },
+      {
+        "start": "packages/p00/sub/s0",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          "packages/p00",
+          "packages/p00/sub/s0"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p00",
+          "packages/p00/sub/s0"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      },
+      {
+        "start": "packages/p01",
+        "verdict": "diagnosed",
+        "detached": true,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [
+          ".",
+          "packages/p00"
+        ],
+        "lost_named": [
+          "."
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p01/. Add them to the root deno.json \"workspace\" field to include them.",
+          "Warning: config file <root>/packages/p01/deno.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W5",
+    "title": "deno.json names a member outside every npm glob",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "extras/e0",
+          "packages/p00"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "extras/e0"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p00"
+        ],
+        "lost_named": [
+          "packages/p00"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p00/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "diagnosed",
+        "detached": true,
+        "baseline": [
+          ".",
+          "extras/e0",
+          "packages/p00"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p00"
+        ],
+        "patched_error": null,
+        "lost": [
+          ".",
+          "extras/e0"
+        ],
+        "lost_named": [
+          "."
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p00/. Add them to the root deno.json \"workspace\" field to include them.",
+          "Warning: config file <root>/packages/p00/deno.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      },
+      {
+        "start": "extras/e0",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "extras/e0",
+          "packages/p00"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "extras/e0"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p00"
+        ],
+        "lost_named": [
+          "packages/p00"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p00/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W6",
+    "title": "npm literal (non-glob) member, not named by deno.json",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p02"
+        ],
+        "lost_named": [
+          "packages/p02"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p02"
+        ],
+        "lost_named": [
+          "packages/p02"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p02",
+        "verdict": "diagnosed",
+        "detached": true,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [
+          ".",
+          "packages/p00"
+        ],
+        "lost_named": [
+          "."
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them.",
+          "Warning: config file <root>/packages/p02/deno.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W7",
+    "title": "deno-only member (no package.json) inside an npm glob",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      },
+      {
+        "start": "packages/p02",
+        "verdict": "same",
+        "detached": true,
+        "baseline": [
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": [
+          "Warning: config file <root>/packages/p02/deno.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W7b",
+    "title": "deno-only member named literally by package.json",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [],
+        "baseline_error": "Could not find package.json for workspace member in '<root>/packages/p02/'.",
+        "patched": [
+          ".",
+          "packages/p00"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [],
+        "baseline_error": "Could not find package.json for workspace member in '<root>/packages/p02/'.",
+        "patched": [
+          ".",
+          "packages/p00"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p02",
+        "verdict": "same",
+        "detached": true,
+        "baseline": [],
+        "baseline_error": "Could not find package.json for workspace member in '<root>/packages/p02/'.",
+        "patched": [
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p02/. Add them to the root deno.json \"workspace\" field to include them.",
+          "Warning: config file <root>/packages/p02/deno.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W8",
+    "title": "no workspace field in deno.json at all",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      },
+      {
+        "start": "packages/p01",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      }
+    ]
+  },
+  {
+    "id": "W9",
+    "title": "npm negation excludes a directory deno.json names",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p01"
+        ],
+        "lost_named": [
+          "packages/p01"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p01/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p01"
+        ],
+        "lost_named": [
+          "packages/p01"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p01/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p01",
+        "verdict": "diagnosed",
+        "detached": true,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "lost_named": [
+          "."
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p01/. Add them to the root deno.json \"workspace\" field to include them.",
+          "Warning: config file <root>/packages/p01/deno.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      },
+      {
+        "start": "packages/p02",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/p01"
+        ],
+        "lost_named": [
+          "packages/p01"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/p01/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W10",
+    "title": "deno.json member list is itself a glob",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/q00"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/q00"
+        ],
+        "lost_named": [
+          "packages/q00"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/q00/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/q00"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/q00"
+        ],
+        "lost_named": [
+          "packages/q00"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/q00/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/p01",
+        "verdict": "diagnosed",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/q00"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "patched_error": null,
+        "lost": [
+          "packages/q00"
+        ],
+        "lost_named": [
+          "packages/q00"
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/q00/. Add them to the root deno.json \"workspace\" field to include them."
+        ]
+      },
+      {
+        "start": "packages/q00",
+        "verdict": "diagnosed",
+        "detached": true,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p01",
+          "packages/q00"
+        ],
+        "baseline_error": null,
+        "patched": [
+          "packages/q00"
+        ],
+        "patched_error": null,
+        "lost": [
+          ".",
+          "packages/p00",
+          "packages/p01"
+        ],
+        "lost_named": [
+          "."
+        ],
+        "warns": [
+          "The \"workspace\" field of the root deno.json is authoritative for workspace membership, so these directories matched by the \"workspaces\" field of package.json are not members: <root>/packages/q00/. Add them to the root deno.json \"workspace\" field to include them.",
+          "Warning: config file <root>/packages/q00/deno.json is not a member of the workspace at <root>/. Ignoring the parent workspace config."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W11",
+    "title": "deno.json names a member that has only a package.json",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      },
+      {
+        "start": "packages/p02",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      }
+    ]
+  },
+  {
+    "id": "W12",
+    "title": "deno.json glob covers a member that has only a package.json",
+    "starts": [
+      {
+        "start": ".",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      },
+      {
+        "start": "packages/p00",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      },
+      {
+        "start": "packages/p02",
+        "verdict": "same",
+        "detached": false,
+        "baseline": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "baseline_error": null,
+        "patched": [
+          ".",
+          "packages/p00",
+          "packages/p02"
+        ],
+        "patched_error": null,
+        "lost": [],
+        "lost_named": [],
+        "warns": []
+      }
+    ]
+  }
+]

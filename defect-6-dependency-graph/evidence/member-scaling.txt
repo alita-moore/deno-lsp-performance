@@ -1,0 +1,39 @@
+# Synthetic member sweep: N members, each one package.json plus a one-line .ts file.
+# No node_modules, no TypeScript beyond that line. The only other input is a deno.lock,
+# copied verbatim from the real workspace: 2,567 npm packages, 271 specifiers.
+# deno 2.9.5 + the four patches, deno.enable = true for the whole root, one file opened,
+# then 60 sequential textDocument/definition requests on it.
+
+=== with the real deno.lock ===
+<scratch>/synth/n1-lock: 1 members, lock=<scratch>/synth/real-deno.lock
+  20103 ms  phase=config-done  rss=78 MB
+  <scratch>/synth/n1-lock/packages/m000/src/index.ts  documentSymbol=1359 ms  definition=14 ms  diagnostics=1373 ms  rss=321 MB
+  60 requests at concurrency 1 in 354 ms
+  peak rss                321 MB
+<scratch>/synth/n8-lock: 8 members, lock=<scratch>/synth/real-deno.lock
+  20074 ms  phase=config-done  rss=178 MB
+  <scratch>/synth/n8-lock/packages/m000/src/index.ts  documentSymbol=1245 ms  definition=46 ms  diagnostics=1292 ms  rss=454 MB
+  60 requests at concurrency 1 in 1415 ms
+  peak rss                454 MB
+<scratch>/synth/n24-lock: 24 members, lock=<scratch>/synth/real-deno.lock
+  20083 ms  phase=config-done  rss=410 MB
+  <scratch>/synth/n24-lock/packages/m000/src/index.ts  documentSymbol=1582 ms  definition=158 ms  diagnostics=1740 ms  rss=741 MB
+  60 requests at concurrency 1 in 4500 ms
+  peak rss                742 MB
+<scratch>/synth/n73-lock: 73 members, lock=<scratch>/synth/real-deno.lock
+  20080 ms  phase=config-done  rss=1113 MB
+  <scratch>/synth/n73-lock/packages/m000/src/index.ts  documentSymbol=1633 ms  definition=288 ms  diagnostics=1922 ms  rss=1630 MB
+  60 requests at concurrency 1 in 13213 ms
+  peak rss                1630 MB
+
+=== control: no deno.lock at all ===
+<scratch>/synth/n1-nolock: 1 members, lock=none
+  20101 ms  phase=config-done  rss=44 MB
+  <scratch>/synth/n1-nolock/packages/m000/src/index.ts  documentSymbol=260 ms  definition=925 ms  diagnostics=1186 ms  rss=291 MB
+  60 requests at concurrency 1 in 62 ms
+  peak rss                295 MB
+<scratch>/synth/n73-nolock: 73 members, lock=none
+  20097 ms  phase=config-done  rss=49 MB
+  <scratch>/synth/n73-nolock/packages/m000/src/index.ts  documentSymbol=1053 ms  definition=13 ms  diagnostics=1066 ms  rss=299 MB
+  60 requests at concurrency 1 in 156 ms
+  peak rss                299 MB

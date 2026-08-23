@@ -1,0 +1,134 @@
+# Verification of apply-shared-snapshot.py against a fresh git clone of v2.9.5.
+# Toolchain: the repository's pinned 1.95.0. Reproduce with verify/run.sh.
+
+=== the clone ===
+$ git clone --depth 1 --branch v2.9.5 https://github.com/denoland/deno
+$ git log --oneline -1  ->  17fadf33 chore(release): publish dependency crates with --no-verify
+$ git describe --tags   ->  v2.9.5
+
+=== applying ===
+ok  libs/resolver/npm/managed/resolution.rs  2-line anchor
+ok  libs/resolver/npm/managed/resolution.rs  1-line anchor
+ok  libs/resolver/npm/managed/resolution.rs  1-line anchor
+ok  libs/resolver/npm/managed/resolution.rs  3-line anchor
+ok  libs/resolver/npm/managed/resolution.rs  3-line anchor
+ok  libs/resolver/npm/managed/mod.rs         1-line anchor
+ok  cli/lsp/resolver.rs                      1-line anchor
+shared snapshot applied: 7 edits across 3 files
+
+=== the diff ===
+diff --git a/cli/lsp/resolver.rs b/cli/lsp/resolver.rs
+index 7a82df13..0d949968 100644
+--- a/cli/lsp/resolver.rs
++++ b/cli/lsp/resolver.rs
+@@ -242,7 +242,7 @@ impl LspScopedResolver {
+     factory
+       .services
+       .npm_resolution
+-      .set_snapshot(self.npm_resolution.snapshot());
++      .set_snapshot_rc(self.npm_resolution.snapshot_rc());
+     let npm_resolver = self.npm_resolver.as_ref();
+     if let Some(npm_resolver) = &npm_resolver {
+       factory.set_npm_resolver(CliNpmResolver::<CliSys>::new::<CliSys>(
+diff --git a/libs/resolver/npm/managed/mod.rs b/libs/resolver/npm/managed/mod.rs
+index dc92c227..67c95ab0 100644
+--- a/libs/resolver/npm/managed/mod.rs
++++ b/libs/resolver/npm/managed/mod.rs
+@@ -31,6 +31,7 @@ use self::global::GlobalNpmPackageResolverSys;
+ use self::local::LocalNpmPackageResolver;
+ pub use self::resolution::NpmResolutionCell;
+ pub use self::resolution::NpmResolutionCellRc;
++pub use self::resolution::NpmResolutionSnapshotRc;
+ use crate::NpmCacheDirRc;
+ use crate::npmrc::ResolvedNpmRcRc;
+ 
+diff --git a/libs/resolver/npm/managed/resolution.rs b/libs/resolver/npm/managed/resolution.rs
+index 48499f48..9740f7ce 100644
+--- a/libs/resolver/npm/managed/resolution.rs
++++ b/libs/resolver/npm/managed/resolution.rs
+@@ -19,12 +19,18 @@ use parking_lot::RwLock;
+ #[allow(clippy::disallowed_types, reason = "definition")]
+ pub type NpmResolutionCellRc = deno_maybe_sync::MaybeArc<NpmResolutionCell>;
+ 
++#[allow(
++  clippy::disallowed_types,
++  reason = "sharing one snapshot between cells must not depend on the sync feature"
++)]
++pub type NpmResolutionSnapshotRc = std::sync::Arc<NpmResolutionSnapshot>;
++
+ /// Handles updating and storing npm resolution in memory.
+ ///
+ /// This does not interact with the file system.
+ #[derive(Default)]
+ pub struct NpmResolutionCell {
+-  snapshot: RwLock<NpmResolutionSnapshot>,
++  snapshot: RwLock<NpmResolutionSnapshotRc>,
+   is_pending: deno_unsync::sync::AtomicFlag,
+ }
+ 
+@@ -48,7 +54,7 @@ impl NpmResolutionCell {
+ 
+   pub fn new(initial_snapshot: NpmResolutionSnapshot) -> Self {
+     Self {
+-      snapshot: RwLock::new(initial_snapshot),
++      snapshot: RwLock::new(NpmResolutionSnapshotRc::new(initial_snapshot)),
+       is_pending: AtomicFlag::lowered(),
+     }
+   }
+@@ -169,6 +175,10 @@ impl NpmResolutionCell {
+   }
+ 
+   pub fn snapshot(&self) -> NpmResolutionSnapshot {
++    (**self.snapshot.read()).clone()
++  }
++
++  pub fn snapshot_rc(&self) -> NpmResolutionSnapshotRc {
+     self.snapshot.read().clone()
+   }
+ 
+@@ -193,6 +203,10 @@ impl NpmResolutionCell {
+   }
+ 
+   pub fn set_snapshot(&self, snapshot: NpmResolutionSnapshot) {
++    *self.snapshot.write() = NpmResolutionSnapshotRc::new(snapshot);
++  }
++
++  pub fn set_snapshot_rc(&self, snapshot: NpmResolutionSnapshotRc) {
+     *self.snapshot.write() = snapshot;
+   }
+ 
+
+=== re-applying fails, and writes nothing ===
+FAIL libs/resolver/npm/managed/resolution.rs: anchor count 0
+  snapshot: RwLock<NpmResolutionSnapshot>,
+
+FAIL libs/resolver/npm/managed/resolution.rs: anchor count 0
+      snapshot: RwLock::new(initial_snapshot),
+
+(exit non-zero; the tree is unchanged:)
+ cli/lsp/resolver.rs                     |  2 +-
+ libs/resolver/npm/managed/mod.rs        |  1 +
+ libs/resolver/npm/managed/resolution.rs | 18 ++++++++++++++++--
+ 3 files changed, 18 insertions(+), 3 deletions(-)
+
+=== rustfmt: both reformatted files parse and are rustfmt-clean ===
+libs/resolver/npm/managed/resolution.rs    parses  rustfmt-clean
+cli/lsp/resolver.rs                        parses  rustfmt-clean
+
+=== cargo check -p deno_npm_installer (compiles the patched deno_resolver and both untouched set_snapshot callers) ===
+    Checking deno_resolver v0.88.0 (<deno-checkout>/libs/resolver)
+    Checking deno_npm_installer v0.52.0 (<deno-checkout>/libs/npm_installer)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 15.67s
+
+=== cargo check -p deno_resolver --features sync, patched AND pristine: the same two pre-existing errors ===
+# libs/resolver/rt.rs needs deno_unsync/tokio, which nothing enables when the crate is checked alone.
+# This is not caused by the patch; it reproduces on an untouched clone.
+error[E0432]: unresolved import `deno_unsync::JoinHandle`
+error[E0425]: cannot find function `spawn_blocking` in crate `deno_unsync`
+error: could not compile `deno_resolver` (lib) due to 2 previous errors
+
+=== the exact expression the CLI edit produces, type-checked ===
+# probe crate: destination.set_snapshot_rc(source.snapshot_rc()) on two &NpmResolutionCellRc
+patched:  Checking snapshot-probe v0.0.0 -> Finished, no errors
+pristine: error[E0599]: no method named `set_snapshot_rc` found for reference `&Arc<NpmResolutionCell>`
+          error[E0599]: no method named `snapshot_rc` found for reference `&Arc<NpmResolutionCell>`

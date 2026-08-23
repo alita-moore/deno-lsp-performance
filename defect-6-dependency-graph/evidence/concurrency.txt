@@ -1,0 +1,46 @@
+# What an in-flight request costs, measured as resident memory.
+#
+# Every arm below opens one file, waits for diagnostics, and then issues plain
+# textDocument/definition requests at the stated concurrency. Sequential requests are
+# free; concurrent ones are not, and what each one costs is a function of the member count.
+
+############ real workspace, six enabled paths, 96 requests eight at a time ############
+      7 ms  phase=initialize  rss=1 MB
+     75 ms  phase=config  rss=29 MB
+  30080 ms  phase=config-done  rss=1068 MB
+  30081 ms  phase=open:src/index.ts  rss=1068 MB
+  49605 ms  phase=diag:src/index.ts  rss=2514 MB
+  50868 ms  phase=requests:0  rss=2852 MB
+  after 8 requests  rss=4602 MB
+  after 88 requests  rss=4553 MB
+  96 requests at concurrency 8 in 29616 ms
+  rss before requests 2852 MB, after 4553 MB
+  80484 ms  phase=settle  rss=4553 MB
+  85485 ms  phase=peak  rss=4510 MB
+  final rss               4509 MB
+  peak rss                4610 MB
+
+############ real workspace, six enabled paths, 96 requests one at a time (arm B) ############
+  <workspace>/libs/pgapi/src/index.ts  documentSymbol=19223 ms  definition=364 ms  diagnostics=-1 ms  rss=2734 MB
+  peak rss                3115 MB
+  (arm B issued three requests in sequence and never moved past its post-diagnostics RSS)
+
+############ synthetic workspaces, N members plus the copied deno.lock, 32 requests eight at a time ############
+  20096 ms  phase=config-done  rss=78 MB
+  <scratch>/synth/n1-lock/packages/m000/src/index.ts  documentSymbol=1257 ms  definition=25 ms  diagnostics=1282 ms  rss=333 MB
+  after 8 requests  rss=350 MB
+  rss before requests 333 MB, after 385 MB
+  peak rss                385 MB
+--- n=1 done ---
+  20076 ms  phase=config-done  rss=410 MB
+  <scratch>/synth/n24-lock/packages/m000/src/index.ts  documentSymbol=1244 ms  definition=111 ms  diagnostics=1356 ms  rss=742 MB
+  after 8 requests  rss=1076 MB
+  rss before requests 742 MB, after 1300 MB
+  peak rss                1300 MB
+--- n=24 done ---
+  20070 ms  phase=config-done  rss=1114 MB
+  <scratch>/synth/n73-lock/packages/m000/src/index.ts  documentSymbol=1494 ms  definition=295 ms  diagnostics=1789 ms  rss=1631 MB
+  after 8 requests  rss=2621 MB
+  rss before requests 1631 MB, after 3613 MB
+  peak rss                3613 MB
+--- n=73 done ---

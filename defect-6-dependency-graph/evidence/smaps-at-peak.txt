@@ -1,0 +1,192 @@
+# /proc/<pid>/smaps_rollup and the mapping table, real workspace, six enabled paths.
+#
+# Read this to find out which allocator holds the bytes. [heap] is the glibc main arena.
+# The 16 GB reservation with zero resident pages is V8's pointer-compression cage, and the
+# 256 MB rwxp mapping is its code range: between them V8 accounts for a few megabytes.
+# The run of mappings just under 64 MB is glibc's per-thread arenas, one per allocating thread.
+
+############ arm B: one document, three sequential requests. RSS 2799 MB ############
+
+0e140000-ffffddec2000 ---p 00000000 00:00 0                              [rollup]
+Rss:             2799592 kB
+Pss:             2792297 kB
+Pss_Dirty:       2739312 kB
+Pss_Anon:        2739312 kB
+Pss_File:          52985 kB
+Pss_Shmem:             0 kB
+Shared_Clean:      12860 kB
+Shared_Dirty:          0 kB
+Private_Clean:     47420 kB
+Private_Dirty:   2739312 kB
+Referenced:      2799592 kB
+Anonymous:       2739312 kB
+KSM:                   0 kB
+LazyFree:              0 kB
+AnonHugePages:     65536 kB
+ShmemPmdMapped:        0 kB
+FilePmdMapped:         0 kB
+Shared_Hugetlb:        0 kB
+Private_Hugetlb:       0 kB
+Swap:                  0 kB
+SwapPss:               0 kB
+Locked:                0 kB
+
+
+top mappings by Rss
+vsizeKB	rssKB	perms	name
+733188	731888	rw-p	[heap]
+130884	130752	rw-p	[anon]
+131072	130724	rw-p	[anon]
+113376	113140	rw-p	[anon]
+88268	69824	rw-p	[anon]
+65536	65536	rw-p	[anon]
+65536	65512	rw-p	[anon]
+65508	65420	rw-p	[anon]
+65536	65368	rw-p	[anon]
+65316	65020	rw-p	[anon]
+64960	64948	rw-p	[anon]
+64384	64356	rw-p	[anon]
+63956	63944	rw-p	[anon]
+98960	58396	r-xp	<workspace>/temp/deno-file-resolution2/bin/deno-four-patches
+43052	43052	rw-p	[anon]
+35604	35500	rw-p	[anon]
+32092	31776	rw-p	[anon]
+32004	31616	rw-p	[anon]
+30808	30672	rw-p	[anon]
+30056	29916	rw-p	[anon]
+28608	28440	rw-p	[anon]
+28188	28088	rw-p	[anon]
+25944	25696	rw-p	[anon]
+25944	25684	rw-p	[anon]
+25132	25032	rw-p	[anon]
+24392	24336	rw-p	[anon]
+23984	23828	rw-p	[anon]
+22644	22536	rw-p	[anon]
+22564	22532	rw-p	[anon]
+20924	20832	rw-p	[anon]
+20868	20764	rw-p	[anon]
+19828	19656	rw-p	[anon]
+19772	19620	rw-p	[anon]
+19368	19296	rw-p	[anon]
+19176	19148	rw-p	[anon]
+18988	18880	rw-p	[anon]
+18396	18196	rw-p	[anon]
+18028	18012	rw-p	[anon]
+17868	17852	rw-p	[anon]
+17892	17800	rw-p	[anon]
+
+rss by mapping name
+rssKB	name
+2003992	[anon]
+731888	[heap]
+61300	<workspace>/temp/deno-file-resolution2/bin/deno-four-patches
+1484	/usr/lib/aarch64-linux-gnu/libc.so.6
+468	[stack]
+196	/usr/lib/aarch64-linux-gnu/libm.so.6
+172	/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+72	/usr/lib/aarch64-linux-gnu/libgcc_s.so.1
+16	<scratch>/fslog.so
+4	[vdso]
+0	[vvar]
+
+############ arm C: the same, then 96 definition requests eight at a time. RSS 4619 MB ############
+
+076c0000-ffffece68000 ---p 00000000 00:00 0                              [rollup]
+Rss:             4618676 kB
+Pss:             4615573 kB
+Pss_Dirty:       4575244 kB
+Pss_Anon:        4575244 kB
+Pss_File:          40329 kB
+Pss_Shmem:             0 kB
+Shared_Clean:       4508 kB
+Shared_Dirty:          0 kB
+Private_Clean:     38924 kB
+Private_Dirty:   4575244 kB
+Referenced:      4618676 kB
+Anonymous:       4575244 kB
+KSM:                   0 kB
+LazyFree:              0 kB
+AnonHugePages:     61440 kB
+ShmemPmdMapped:        0 kB
+FilePmdMapped:         0 kB
+Shared_Hugetlb:        0 kB
+Private_Hugetlb:       0 kB
+Swap:                  0 kB
+SwapPss:               0 kB
+Locked:                0 kB
+
+
+top mappings by Rss
+vsizeKB	rssKB	perms	name
+2729180	2729028	rw-p	[heap]
+130884	130752	rw-p	[anon]
+131072	130748	rw-p	[anon]
+113372	113084	rw-p	[anon]
+65524	65524	rw-p	[anon]
+65536	65496	rw-p	[anon]
+65508	65420	rw-p	[anon]
+65536	65392	rw-p	[anon]
+65300	65300	rw-p	[anon]
+65316	65020	rw-p	[anon]
+64964	64964	rw-p	[anon]
+64124	64112	rw-p	[anon]
+63956	63944	rw-p	[anon]
+42696	42552	rw-p	[anon]
+98960	41564	r-xp	<workspace>/temp/deno-file-resolution2/bin/deno-four-patches
+38120	37800	rw-p	[anon]
+34428	34208	rw-p	[anon]
+29488	29292	rw-p	[anon]
+28168	27988	rw-p	[anon]
+23892	23792	rw-p	[anon]
+23224	23192	rw-p	[anon]
+23056	22840	rw-p	[anon]
+22284	22216	rw-p	[anon]
+22224	22112	rw-p	[anon]
+19856	19812	rw-p	[anon]
+19252	19232	rw-p	[anon]
+18908	18884	rw-p	[anon]
+18536	18360	rw-p	[anon]
+17804	17676	rw-p	[anon]
+17284	17268	rw-p	[anon]
+16672	16520	rw-p	[anon]
+15132	15040	rw-p	[anon]
+14740	14596	rw-p	[anon]
+14684	14588	rw-p	[anon]
+14184	14104	rw-p	[anon]
+35440	13896	rw-p	[anon]
+13976	13876	rw-p	[anon]
+13708	13572	rw-p	[anon]
+13472	13460	rw-p	[anon]
+13308	13296	rw-p	[anon]
+
+top mappings by virtual size
+vsizeKB	rssKB	perms	name
+16777216	0	---p	[anon]
+2729180	2729028	rw-p	[heap]
+262144	3136	rwxp	[anon]
+261696	0	---p	[anon]
+131072	130748	rw-p	[anon]
+131072	0	---p	[anon]
+130884	130752	rw-p	[anon]
+113372	113084	rw-p	[anon]
+98960	41564	r-xp	<workspace>/temp/deno-file-resolution2/bin/deno-four-patches
+65536	65496	rw-p	[anon]
+65536	65392	rw-p	[anon]
+65524	65524	rw-p	[anon]
+65508	65420	rw-p	[anon]
+65404	0	---p	[anon]
+65404	0	---p	[anon]
+
+rss by mapping name
+rssKB	name
+2729028	[heap]
+1842784	[anon]
+44468	<workspace>/temp/deno-file-resolution2/bin/deno-four-patches
+1484	/usr/lib/aarch64-linux-gnu/libc.so.6
+468	[stack]
+196	/usr/lib/aarch64-linux-gnu/libm.so.6
+156	/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+72	/usr/lib/aarch64-linux-gnu/libgcc_s.so.1
+16	<scratch>/fslog.so
+4	[vdso]
+0	[vvar]

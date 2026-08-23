@@ -1,0 +1,313 @@
+[
+  {
+    "id": "W1",
+    "title": "npm-only member, not named by deno.json",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01",
+        "@w/p02"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": [
+        "@w/p00"
+      ]
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01",
+        "@w/p02"
+      ]
+    }
+  },
+  {
+    "id": "W2",
+    "title": "drift: member added to package.json coverage, deno.json not updated",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01",
+        "@w/p02"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01"
+      ]
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01",
+        "@w/p02"
+      ]
+    }
+  },
+  {
+    "id": "W3",
+    "title": "deno.json declares an empty workspace array",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": []
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01"
+      ]
+    }
+  },
+  {
+    "id": "W4",
+    "title": "nested workspace: a declared member declares its own",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": [
+        "@w/p00"
+      ]
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01"
+      ]
+    }
+  },
+  {
+    "id": "W5",
+    "title": "deno.json names a member outside every npm glob",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/e0",
+        "@w/p00"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": [
+        "@w/e0"
+      ]
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00"
+      ]
+    }
+  },
+  {
+    "id": "W6",
+    "title": "npm literal (non-glob) member, not named by deno.json",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p02"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": [
+        "@w/p00"
+      ]
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p02"
+      ]
+    }
+  },
+  {
+    "id": "W7",
+    "title": "deno-only member (no package.json) inside an npm glob",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/p00"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": [
+        "@w/p00"
+      ]
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00"
+      ]
+    }
+  },
+  {
+    "id": "W7b",
+    "title": "deno-only member named literally by package.json",
+    "U": {
+      "code": 1,
+      "names": []
+    },
+    "D": {
+      "code": 0,
+      "names": [
+        "@w/p00"
+      ]
+    },
+    "P": {
+      "code": 1,
+      "names": []
+    }
+  },
+  {
+    "id": "W8",
+    "title": "no workspace field in deno.json at all",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": []
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01"
+      ]
+    }
+  },
+  {
+    "id": "W9",
+    "title": "npm negation excludes a directory deno.json names",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01",
+        "@w/p02"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p02"
+      ]
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01"
+      ]
+    }
+  },
+  {
+    "id": "W10",
+    "title": "deno.json member list is itself a glob",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01",
+        "@w/q00"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01"
+      ]
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p01",
+        "@w/q00"
+      ]
+    }
+  },
+  {
+    "id": "W11",
+    "title": "deno.json names a member that has only a package.json",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p02"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p02"
+      ]
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p02"
+      ]
+    }
+  },
+  {
+    "id": "W12",
+    "title": "deno.json glob covers a member that has only a package.json",
+    "U": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p02"
+      ]
+    },
+    "D": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p02"
+      ]
+    },
+    "P": {
+      "code": 0,
+      "names": [
+        "@w/p00",
+        "@w/p02"
+      ]
+    }
+  }
+]

@@ -1,0 +1,98 @@
+# What the language server opened, real workspace, six enabled paths
+# from harness/fslog.c: every open()/openat() and every opendir(), with a millisecond stamp
+
+open() calls              39884
+opendir() calls           6530
+distinct paths opened     12984
+deno.lock                      7 open() calls over 3 distinct paths
+    x3     <workspace>/deno.lock
+    x2     <workspace>/infra/member-01/deno.lock
+    x2     <workspace>/apps/member-01/server/deno.lock
+pnpm-lock.yaml                 0 open() calls over 0 distinct paths
+package-lock.json              1 open() calls over 1 distinct paths
+    x1     <workspace>/infra/member-01/package-lock.json
+yarn.lock                      0 open() calls over 0 distinct paths
+.npmrc                        17 open() calls over 4 distinct paths
+    x7     <home>/.npmrc
+    x6     <workspace>/.npmrc
+    x2     <workspace>/infra/member-01/.npmrc
+    x2     <workspace>/apps/member-01/server/.npmrc
+distinct node_modules package dirs touched   384
+distinct .d.ts opened                        657  (7.6 MB on disk)
+workspace members with a non-node_modules file opened   67
+    x1193   ml-serving/member-01
+    x1058   infra/member-02
+    x922    libs/member-01
+    x863    libs/member-02
+    x759    libs/member-03
+    x480    apps/member-02
+    x451    libs/member-04
+    x442    libs/member-05
+    x432    ml-serving/member-02
+    x420    libs/member-06
+    x392    libs/member-07
+    x357    libs/member-08
+    x321    libs/member-09
+    x314    libs/member-10
+    x276    libs/member-11
+    x262    apps/member-01
+    x240    infra/member-03
+    x223    infra/member-04
+    x206    apps/member-03
+    x187    libs/member-12
+    x184    libs/member-13
+    x182    libs/member-14
+    x176    libs/member-15
+    x157    ml-serving/member-03
+    x155    libs/member-16
+    x129    infra/member-01
+    x116    libs/member-17
+    x114    infra/member-05
+    x113    libs/member-18
+    x106    libs/member-19
+    x103    libs/member-20
+    x102    apps/member-04
+    x101    libs/member-21
+    x97     apps/member-05
+    x86     libs/member-22
+    x85     apps/member-06
+    x81     infra/member-06
+    x67     libs/member-23
+    x60     libs/member-24
+    x55     infra/member-07
+    x47     libs/member-25
+    x45     libs/member-26
+    x44     libs/member-27
+    x41     apps/member-07
+    x36     libs/member-28
+    x33     libs/member-29
+    x30     domain/member-01
+    x27     libs/member-30
+    x23     libs/member-31
+    x22     libs/member-32
+    x22     ml-serving/member-04
+    x21     libs/member-33
+    x20     libs/member-34
+    x18     libs/member-35
+    x17     libs/member-36
+    x17     libs/member-37
+    x17     libs/member-38
+    x16     ml-serving/member-05
+    x15     libs/member-39
+    x15     libs/member-40
+    x15     libs/member-41
+    x13     domain/member-02
+    x5      infra/member-08
+    x4      infra/member-09
+    x2      infra/member-10
+    x2      libs/member-42
+    x2      libs/member-43
+marker @opentelemetry/sdk-node                           3 distinct files opened
+marker @aws-sdk/client-s3                                2 distinct files opened
+marker @reduxjs/toolkit                                  2 distinct files opened
+marker @playwright/test                                  3 distinct files opened
+marker @fortawesome/react-fontawesome                    1 distinct files opened
+marker @supabase/ssr                                     3 distinct files opened
+
+# each marker package is declared in the dependencies of exactly one workspace member,
+# and that member is not one of the six enabled paths.

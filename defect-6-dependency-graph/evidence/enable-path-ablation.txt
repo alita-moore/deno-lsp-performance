@@ -1,0 +1,136 @@
+# enablePaths ablation, real workspace, deno 2.9.5 + the four patches from this study
+# arm A: deno.enablePaths = one member.  arm B: deno.enablePaths = the six the editor uses.
+# Same target file, same binary, same session day.
+
+=== arm A, one enabled path ===
+     10 ms  phase=initialize  rss=1 MB
+    136 ms  phase=config  rss=29 MB
+  30145 ms  phase=config-done  rss=1095 MB
+  30147 ms  phase=open:src/index.ts  rss=1095 MB
+  57101 ms  phase=diag:src/index.ts  rss=2597 MB
+  <workspace>/libs/member-01/src/index.ts  documentSymbol=26204 ms  definition=750 ms  diagnostics=28546 ms  rss=2809 MB
+  58693 ms  phase=settle  rss=2809 MB
+  63695 ms  phase=peak  rss=2750 MB
+  config requests served  2
+  final rss               2750 MB
+  peak rss                2952 MB
+
+=== arm B, six enabled paths ===
+      9 ms  phase=initialize  rss=0 MB
+    139 ms  phase=config  rss=29 MB
+  30141 ms  phase=config-done  rss=1099 MB
+  30143 ms  phase=open:src/index.ts  rss=1099 MB
+  49731 ms  phase=diag:src/index.ts  rss=2548 MB
+  <workspace>/libs/member-01/src/index.ts  documentSymbol=19223 ms  definition=364 ms  diagnostics=-1 ms  rss=2734 MB
+ 349728 ms  phase=settle  rss=2734 MB
+ 354741 ms  phase=peak  rss=2734 MB
+  config requests served  2
+  final rss               2734 MB
+  peak rss                3115 MB
+
+=== deno/performance, arm A ===
+  --- deno/performance (top 30 by total ms) ---
+       25565 ms  x      1  lsp.document_symbol
+       25560 ms  x      1  tsc.request.$getDiagnostics
+       25342 ms  x      1  tsc.host.$getDiagnostics
+       25245 ms  x      1  tsc.request.getNavigationTree
+       22544 ms  x      1  tsc.op.op_script_names
+        2041 ms  x      1  lsp.did_change_configuration
+         748 ms  x      1  lsp.goto_definition
+         651 ms  x    651  tsc.op.op_resolve
+         630 ms  x      1  lsp.did_open
+         425 ms  x      1  tsc.request.$getAmbientModules
+         121 ms  x      1  tsc.host.$releaseMemory
+           4 ms  x      1  lsp.initialize
+           3 ms  x      1  tsc.request.getDefinitionAndBoundSpan
+           3 ms  x      1  tsc.host.getNavigationTree
+           2 ms  x      1  tsc.host.getDefinitionAndBoundSpan
+           0 ms  x    821  tsc.op.op_load
+           0 ms  x      2  lsp.update_cache
+           0 ms  x      1  tsc.host.$getAmbientModules
+           0 ms  x    226  tsc.op.op_is_node_file
+           0 ms  x      2  lsp.update_global_cache
+           0 ms  x      2  lsp.update_diagnostics
+  config requests served  2
+=== deno/performance, arm B ===
+  --- deno/performance (top 30 by total ms) ---
+       18669 ms  x      1  tsc.request.$getDiagnostics
+       18664 ms  x      1  lsp.document_symbol
+       18473 ms  x      1  tsc.host.$getDiagnostics
+       18343 ms  x      1  tsc.request.getNavigationTree
+       15965 ms  x      1  tsc.op.op_script_names
+        2038 ms  x      1  lsp.did_change_configuration
+         627 ms  x    627  tsc.op.op_resolve
+         553 ms  x      1  lsp.did_open
+         352 ms  x      1  lsp.goto_definition
+         186 ms  x      1  tsc.request.$getAmbientModules
+         118 ms  x      1  tsc.host.$releaseMemory
+           6 ms  x      1  lsp.initialize
+           6 ms  x      1  tsc.request.getDefinitionAndBoundSpan
+           3 ms  x      1  tsc.host.getDefinitionAndBoundSpan
+           1 ms  x      1  tsc.host.getNavigationTree
+           1 ms  x      1  tsc.host.$getAmbientModules
+           0 ms  x      2  lsp.update_diagnostics
+           0 ms  x    797  tsc.op.op_load
+           0 ms  x      2  lsp.update_cache
+           0 ms  x      2  lsp.update_global_cache
+           0 ms  x    226  tsc.op.op_is_node_file
+  config requests served  2
+
+=== distinct deno.json config files the language server resolved ===
+arm A (one enabled path): 52
+arm B (six enabled paths): 53
+
+arm A, the list (one enabled path was libs/member-01):
+deno.json
+domain/member-01/deno.json
+domain/member-02/deno.json
+infra/member-01/supabase/functions/edgebus-alpha/deno.json
+infra/member-01/supabase/functions/edgebus-beta/deno.json
+infra/member-01/supabase/functions/hello-bare/deno.json
+infra/member-01/supabase/functions/hello-client/deno.json
+infra/member-01/supabase/functions/hello-edgekv-closed/deno.json
+infra/member-01/supabase/functions/hello-edgekv/deno.json
+infra/member-01/supabase/functions/sso/deno.json
+infra/member-02/supabase/functions/analytics/deno.json
+infra/member-02/supabase/functions/sso/deno.json
+infra/member-03/supabase/functions/atlas/deno.json
+infra/member-03/supabase/functions/gateway/deno.json
+infra/member-03/supabase/functions/server/deno.json
+libs/member-02/deno.json
+libs/member-03/deno.json
+libs/member-04/deno.json
+libs/member-05/deno.json
+libs/member-06/deno.json
+libs/member-07/deno.json
+libs/member-08/deno.json
+libs/member-09/deno.json
+libs/member-10/deno.json
+libs/member-11/deno.json
+libs/member-12/deno.json
+libs/member-13/deno.json
+libs/member-14/deno.json
+libs/member-15/deno.json
+libs/member-16/deno.json
+libs/member-17/deno.json
+libs/member-01/deno.json
+libs/member-18/deno.json
+libs/member-19/deno.json
+libs/member-20/deno.json
+libs/member-21/deno.json
+libs/member-22/deno.json
+libs/member-23/deno.json
+libs/member-24/deno.json
+libs/member-25/deno.json
+libs/member-26/deno.json
+libs/member-27/deno.json
+libs/member-28/deno.json
+libs/member-29/deno.json
+libs/member-30/deno.json
+libs/member-31/deno.json
+libs/member-32/deno.json
+libs/member-33/deno.json
+libs/member-34/deno.json
+libs/member-35/deno.json
+libs/member-36/deno.json
+libs/member-37/deno.json
