@@ -1,3 +1,7 @@
+NOTE: this was investigated using Claude, I have reviewed what I can and can stand by the raw impact on usability in my codebase. Either way this is itself not meant to be treated as a proposed fix to these deno LSP performance issues. Rather it should serve as a demonstration of the LSP's apparent tech debt and its costs on real world workspaces. And it hopefully establishes everything necessary to properly reproduce synthetic workspaces that will make it possible for the deno maintainers to dig deeper and find real, long term, and maintainable fixes that hopefully expand on these performance improvements dramatically. 
+
+---
+
 # Why `deno lsp` takes a hundred seconds to answer the first request
 
 One go-to-definition in a 53-project monorepo cost `deno lsp` **51,315 directory
