@@ -11,9 +11,22 @@ no fix at all, only an instrument: an environment-variable gate that *skips* the
 work rather than removing the redundancy, showing that about 20 seconds of
 `op_script_names` is apparently redundant.
 
-With all six applied the first `documentSymbol` after opening a file goes from
-**120.5 s to 18.6 s**, a factor of 6.5, and the `did_change_configuration` span
-from **75.1 s to 1.5 s**, a factor of 50.
+With all six applied, on the same workspace in one session:
+
+| | unpatched | patched | |
+|---|---|---|---|
+| `textDocument/definition` | 32,226 ms | **131 ms** | **246x** |
+| `lsp.did_change_configuration` | 75,072 ms | **1,504 ms** | **50x** |
+| first `documentSymbol` | 120,486 ms | **18,587 ms** | **6.5x** |
+| peak resident memory | 2,629 MB | 1,861 MB | 1.4x |
+
+Go-to-definition is the headline: **32 seconds to 131 milliseconds**. In a real
+editor rather than this probe, resident memory settles around **3 GB after
+warmup against 8-10 GB before** — roughly a fourfold reduction, though that
+figure is one user's observation and not a measurement taken here.
+
+Three gigabytes is still poor. The workspace is 6.1 MB of source across 5,781
+TypeScript files.
 
 ## Read the result this way
 
