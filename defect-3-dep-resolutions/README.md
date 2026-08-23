@@ -1,11 +1,16 @@
 # Defect 3 — npm dependency resolutions are built eagerly, once per scope
 
 `deno lsp` builds a `ConfiguredDepResolutions` for **every** resolver scope while
-it is loading configuration. On a workspace with 73 members that is 73
-constructions, each one walking that scope's `package.json` dependencies through
-the npm resolver, and most of them are never read: the structure exists to answer
-`resource_url_to_configured_dep_key` and `deps_by_resolution`, which are asked
-about the scopes the user is actually working in.
+it is loading configuration. On the workspace measured here that is **73 scopes,
+so 73 constructions**, each one resolving that scope's `package.json`
+dependencies through the npm resolver, and most are never read: the structure
+exists to answer `resource_url_to_configured_dep_key` and `deps_by_resolution`,
+which are asked about the scopes the user is actually working in.
+
+(73 is the number of workspace members the resolver builds a scope for. It is not
+the "53-project" figure used elsewhere in this tree, which is the number of
+project references the root `tsconfig.json` listed in the earliest run — a
+different quantity, on a repository that changed between runs.)
 
 The construction is unconditional, in `LspResolver`'s per-scope setup in
 `cli/lsp/resolver.rs`:

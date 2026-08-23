@@ -21,7 +21,7 @@ initialized                                       cli/lsp/language_server.rs:426
 
 ## It is the same line as defect 1
 
-`libs/config/glob/collector.rs:178` is where both defects bottom out. One
+`libs/config/glob/collector.rs:178` is where defects 1 and 2 both bottom out. One
 `while let Some(next_dir) = pending_dirs.pop_front()`, reached by two call paths
 that share nothing else:
 
@@ -204,8 +204,19 @@ caller — `deno test`, `deno bench`, `deno doc`, the graph container — so no
 behaviour outside the LSP moves. It exits non-zero if any anchor is not found
 exactly once rather than patching something else.
 
-Nothing in this directory runs it, and no measurement here comes from a binary
-built with it. It is the recommendation written down as code.
+A binary carrying it was built from a clean v2.9.5 checkout and measured on the
+real workspace together with M5: the compiler-options stack — this traversal —
+fell from **9,331 ms to 5,447 ms** while total directory opens fell 39,014 →
+5,910. It falls by 42% rather than to nothing, which is R1 behaving as it is
+specified to: it bounds the walk by the version-control ignore set, and tracked
+mass is still walked. **42% is a long way from the 98.2% modelled below**, and
+the two are not the same quantity — one is wall time on this stack in one run,
+the other is modelled opens on a preset that puts nearly all of its mass in
+untracked trees. What the 42% says about this repository is that a large part of
+what its tsconfig bases contain is tracked. The full table is in
+[`../real-workspace/`](../real-workspace/README.md#what-the-patches-are-worth).
+Nothing else in this directory runs the patch: every other figure here is a model
+or a stock-binary measurement.
 
 ## Why gitignore-by-default is safe here and not at defect 1
 
@@ -326,8 +337,10 @@ probes in one workspace shape, not proven.
 from the root set with `exclude`, because `.use_gitignore()` cannot be switched
 on from outside the binary. That the two are interchangeable is a claim about
 `is_pattern_matched` — both predicates gate the same `handle_entry` — read from
-the source at `collector.rs:143`, not measured end to end. A build with the flag
-flipped would settle it and has not been made.
+the source at `collector.rs:143`, not measured end to end. A build carrying R1
+now exists and was measured for **cost**; it was never re-run through `graph/`'s
+probes, so what it collects has still not been compared against what the
+`exclude` stand-in collects.
 
 **`.gitignore` is someone else's statement of intent, and this reads it as
 consent.** Defect 1 rejects the identical mechanism on that ground and the

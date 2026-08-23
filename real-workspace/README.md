@@ -125,7 +125,131 @@ filesystem**, and any conversion of an open count into seconds is a projection.
 | the filesystem is simply slow | it is 2.7× slower than local disk per directory cold; the driver is the open count |
 
 Ruling out the module-resolution ops does not rule out npm **workspace member**
-discovery, which is a different piece of npm handling and is defect 1.
+discovery, which is a different piece of npm handling and is defect 1. Nor does it
+rule out the other tsc ops: `op_script_names` is 42,136 ms for one call in the
+patched-arm baseline below, and it is
+[defect 4](../defect-4-export-keys/README.md). `op_resolve` and `op_load` are
+many cheap calls; `op_script_names` is one expensive one.
+
+## What the patches are worth
+
+Three arms, from binaries built out of a clean `v2.9.5` checkout with
+`--features lsp-tracing`, patched mechanically by the scripts in this tree — see
+[`../bin/README.md`](../bin/README.md). Driven through the same probe against the
+same workspace in **one session**, so the three columns are directly comparable
+to each other in a way the baseline runs above are not comparable to anything.
+The two patched columns come from one binary: the export-key gate is inert unless
+`DENO_LSP_SKIP_EXPORT_RESOLUTIONS` is set.
+
+`documentSymbol` and `definition` are the driver's round-trip times for the first
+request of each kind after `didOpen`;
+`lsp.did_change_configuration` and `tsc.op.op_script_names` are from
+`deno/performance`; peak RSS is the language server process's.
+
+| metric | baseline | M5+R1+lazy | all four |
+|---|---:|---:|---:|
+| `documentSymbol` | 126,734 ms | 38,650 ms | **19,989 ms** |
+| `lsp.did_change_configuration` | 41,504 ms | 1,871 ms | 2,123 ms |
+| `tsc.op.op_script_names` | 42,136 ms | 35,625 ms | 15,906 ms |
+| `definition` | 1,429 ms | 347 ms | 328 ms |
+| peak RSS | 2,943 MB | 2,316 MB | 2,298 MB |
+
+Stated precisely:
+
+- **`documentSymbol` 126.7 s → 20.0 s, a factor of 6.3.** This is the
+  user-visible one: it is what someone waits for after opening a file. It is also
+  the figure that includes the export-key gate, which is an instrument and not a
+  merge candidate — the three real fixes alone are 126.7 s → 38.7 s, a factor of
+  3.3.
+- **`lsp.did_change_configuration` 41.5 s → 2.1 s, a factor of 20.** This is a
+  config-load span, not a user request. It is the largest ratio in the table and
+  it is the one most easily misquoted; "20× faster LSP" is not a claim this
+  supports.
+- **`definition` 1.43 s → 0.33 s.** Small in absolute terms because by the time
+  it runs the resolver is warm.
+
+### Which patch moved what
+
+| span | moved by |
+|---|---|
+| directory opens, and the config-tree and compiler-options walk time | M5 and R1 — [defect 1](../defect-1-member-globs/README.md), [defect 2](../defect-2-root-set/README.md) |
+| `lsp.did_change_configuration` | the lazy dependency resolutions — [defect 3](../defect-3-dep-resolutions/README.md) |
+| `tsc.op.op_script_names`, and half of `documentSymbol` | the export-key gate — [defect 4](../defect-4-export-keys/README.md), which is an instrument and not a fix |
+
+The last row is the only one an arm isolates: the gate is the sole difference
+between the two patched columns, so `op_script_names` 35,625 → 15,906 and
+`documentSymbol` 38,650 → 19,989 are its and nothing else's. **The first two rows
+are not isolated.** M5, R1 and the lazy patch all sit under config load and
+arrived in one arm; that arm collapses `did_change_configuration` from 41.5 s to
+1.9 s, and these runs cannot say how the 39.6 s divides between the three. The
+attribution above is by which code each patch changes, not by an arm that varies
+one at a time.
+
+### Directory opens, M5 and R1 only
+
+A separate run, the `opendir` shim rather than the probe, baseline against
+M5+R1 on the same workspace:
+
+| | unit | baseline | M5+R1 |
+|---|---|---:|---:|
+| total `opendir` | opens | 39,014 | **5,910** |
+| member-glob expansion, under `initialized` | ms | 16,197 | 74 |
+| member-glob expansion, under `did_change_configuration` | ms | 12,288 | 26 |
+| compiler-options `from_inner` | ms | 9,331 | 5,447 |
+
+**−84.9% of directory opens.** The two member-glob stacks collapse — 16.2 s and
+12.3 s to 74 ms and 26 ms — which is M5. The compiler-options stack falls by 42% rather than to nothing, which is
+R1 doing what its false-negative analysis says it does: it bounds the walk by the
+version-control ignore set, and tracked mass still gets walked.
+
+This run is its own baseline. Its 39,014 is not comparable to the 51,315 and
+42,666 above — different day, different cache state, and the repository itself
+changed between them. Milliseconds from this run are not comparable to
+milliseconds from the probe session either; they are reported here only as the
+per-stack shape of the reduction.
+
+## Memory is not fixed, it got worse, and nothing here explains it
+
+**This is the unresolved problem in the study.** Every latency figure above
+improved. Memory did not.
+
+Driving the patched language server against the real workspace in an editor:
+
+| arm | resident memory |
+|---|---|
+| M5+R1 | **8.2 GB** |
+| all four patches | **10.6 GB, reached in 72 seconds** |
+
+Against a workspace whose entire TypeScript source is **6.1 MB across 5,781
+files**, alongside **96,163 `.d.ts` files totalling 348 MB** in `node_modules`.
+Ten gigabytes is roughly thirty times the declaration files on disk and three
+orders of magnitude more than the source.
+
+What is known:
+
+- **It is not a leak.** RSS is flat once it is reached. The process allocates
+  once and holds.
+- **It gets worse as patches are added**, between the only two arms that can be
+  compared: 8.2 GB with two patches, 10.6 GB with four.
+- **The probe never reproduces it.** Peak RSS in the probe session is ~2.3 GB in
+  every arm including baseline, and it *falls* with the patches applied. Whatever
+  produces the 10.6 GB is not exercised by `initialize` + one `didOpen` + three
+  requests.
+- **There is no baseline editor-session figure.** The 8.2 and 10.6 are patched
+  arms; an unpatched editor session was not measured the same way, so "it got
+  worse" is a statement about the two patched arms and about the absolute size,
+  not a measured regression against stock deno.
+
+One explanation is consistent with all of that and **is not verified**: the
+patches remove the work that was throttling allocation, so the same high-water
+mark is reached sooner and further. Nothing here tests it. No allocation profile
+was taken, no arena or cache was attributed, and the difference between the probe
+and the editor session — which requests, which documents, how long — was not
+isolated.
+
+**Treat the latency result and the memory result separately.** The latency
+numbers are measured and comparable. The memory number is an open problem with no
+identified cause.
 
 ## Running it
 
@@ -156,8 +280,9 @@ python3 ../harness/opendirbench.py <bind-mount-path> <local-disk-path>
   91 / 16,590 / 9,332 / 16,604 split and the 2,230 / 12,300 / 6,320 ms spans are
   quoted from that run. What is preserved is its capture: two deduplicated
   stacks totalling 8,646 opens, of which 8,645 are on one stack.
-- **The real workspace is private** and these two runs cannot be regenerated
-  elsewhere. Everything else in this directory tree can.
+- **The real workspace is private** and none of the runs against it — the two
+  baseline regimes, the probe session or the directory-opens run — can be
+  regenerated elsewhere. Everything else in this directory tree can.
 - **An earlier projection is withdrawn.** 51,315 opens × 1.544 ms ≈ 79 s of the
   103 s charged every open in the run to a single span that owns 22% of them.
   It is not repeated anywhere here.

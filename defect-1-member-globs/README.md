@@ -110,8 +110,14 @@ Five anchor-exact edits: `can_match_under_dir` on `GlobPattern`,
 `should_ignore_dir` beside `is_ignored_dir`. It exits non-zero if any anchor is
 not found exactly once rather than patching something else.
 
-Nothing in this directory runs it, and no measurement here comes from a binary
-built with it. It is the recommendation written down as code.
+A binary carrying it was built from a clean v2.9.5 checkout and measured on the
+real workspace together with R1: total directory opens **39,014 → 5,910**, and
+the two member-glob stacks — this traversal, under `initialized` and under
+`did_change_configuration` — fell from 16,197 ms and 12,288 ms to **74 ms and
+26 ms**. The full table is in
+[`../real-workspace/`](../real-workspace/README.md#what-the-patches-are-worth).
+Nothing else in this directory runs the patch: every other figure here is a model
+or a stock-binary measurement.
 
 ## Why not gitignore-by-default here
 
