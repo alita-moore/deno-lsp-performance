@@ -1,0 +1,16 @@
+{
+  "id": "B01-nm-sibling",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "noise_at": "node_modules"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "B04-nm-nested",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "noise_at": "node_modules/.deno/x/node_modules"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "C02-include-nm-only",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "node_modules"
+    ]
+  },
+  "noise_at": "node_modules"
+}

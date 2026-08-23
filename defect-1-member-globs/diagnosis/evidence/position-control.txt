@@ -1,0 +1,2 @@
+inside-member    .venv dirs=800    opendir into .venv=2587
+at-root          .venv dirs=800    opendir into .venv=1

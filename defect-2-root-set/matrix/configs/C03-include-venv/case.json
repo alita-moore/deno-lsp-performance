@@ -1,0 +1,13 @@
+{
+  "id": "C03-include-venv",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src",
+      ".venv"
+    ]
+  },
+  "noise_at": ".venv"
+}

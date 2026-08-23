@@ -1,0 +1,12 @@
+{
+  "id": "E02-files-list",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "files": [
+      "src/index.ts"
+    ]
+  },
+  "noise_at": ".venv"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "C07-empty-exclude",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": []
+  },
+  "noise_at": ".venv"
+}

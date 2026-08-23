@@ -1,0 +1,49 @@
+
+GRAPH RECOVERY - does deno's module graph reach what the root set no longer seeds
+
+binary <report>/bin/deno
+work   /tmp/deno-rootset-graph.NuR6nx
+
+Each case is built twice. The arms differ only in the root tsconfig's exclude, which is the only lever on a
+released binary that removes a file from the root set at this call site. roots-pruned stands in for any
+mechanism that prunes the walk: they all reach the file set through the same predicate.
+
+  case                      probe       roots-all   roots-pruned  recovered
+  orphan-in-ignored         completion  absent      absent        yes
+  orphan-in-src             completion  offered     offered       yes
+  imported-from-ignored     type        typed       typed         yes
+  generated-js-imported     type        typed       typed         yes
+  include-names-untracked   completion  offered     offered       yes
+
+detail
+
+  orphan-in-ignored  -  a source file inside a gitignored directory that nothing imports
+    roots-all      absent     1082 completion items
+                   diagnostics: Cannot find name 'orphanMar'.
+    roots-pruned   absent     1082 completion items
+                   diagnostics: Cannot find name 'orphanMar'.
+
+  orphan-in-src  -  control - an unimported file the member tsconfig does seed
+    roots-all      offered    1083 completion items
+                   diagnostics: Cannot find name 'orphanMar'.
+    roots-pruned   offered    1083 completion items
+                   diagnostics: Cannot find name 'orphanMar'.
+
+  imported-from-ignored  -  the same file, when an included file imports it
+    roots-all      typed      file:///tmp/deno-rootset-graph.NuR6nx/imported-from-ignored--roots-all/app/dist/gen.ts
+                   diagnostics: none
+    roots-pruned   typed      file:///tmp/deno-rootset-graph.NuR6nx/imported-from-ignored--roots-pruned/app/dist/gen.ts
+                   diagnostics: none
+
+  generated-js-imported  -  generated JavaScript in dist that an included file imports
+    roots-all      typed      file:///tmp/deno-rootset-graph.NuR6nx/generated-js-imported--roots-all/app/dist/gen.js
+                   diagnostics: none
+    roots-pruned   typed      file:///tmp/deno-rootset-graph.NuR6nx/generated-js-imported--roots-pruned/app/dist/gen.js
+                   diagnostics: none
+
+  include-names-untracked  -  a tsconfig whose include explicitly names the untracked directory
+    roots-all      offered    1083 completion items
+                   diagnostics: Cannot find name 'orphanMar'.
+    roots-pruned   offered    1083 completion items
+                   diagnostics: Cannot find name 'orphanMar'.
+

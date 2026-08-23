@@ -1,0 +1,13 @@
+{
+  "id": "C01-include-nm",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src",
+      "node_modules"
+    ]
+  },
+  "noise_at": "node_modules"
+}

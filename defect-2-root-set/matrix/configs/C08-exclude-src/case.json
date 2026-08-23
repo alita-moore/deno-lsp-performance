@@ -1,0 +1,15 @@
+{
+  "id": "C08-exclude-src",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "src"
+    ]
+  },
+  "noise_at": ".venv"
+}

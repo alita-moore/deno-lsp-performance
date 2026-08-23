@@ -1,0 +1,16 @@
+{
+  "id": "A08-coverage",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "noise_at": "coverage"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "E03-no-composite",
+  "pkg_tsconfig": {
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+  },
+  "noise_at": ".venv"
+}

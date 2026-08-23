@@ -1,0 +1,139 @@
+binary   <report>/bin/deno
+repo     /tmp/deno-stacktrace.93735/sample
+entry    /tmp/deno-stacktrace.93735/sample/packages/alpha/src/index.ts
+capture  /tmp/deno-stacktrace.93735/capture.txt
+
+capture      /tmp/deno-stacktrace.93735/capture.txt.99816
+exe base     0xaaaaea520000
+opendir      21192 matched, 21192 attributed, 4 distinct stacks
+
+=== stack 1: 12009 opens (56.7%) ===
+    example path: /tmp/deno-stacktrace.93735/sample/packages
+    std::sys::fs::read_dir
+        /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/fs/unix.rs:2066
+    std::fs::read_dir
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/fs.rs:3312
+    sys_traits::impls::real::<impl sys_traits::BaseFsReadDir for sys_traits::impls::RealSys>::base_fs_read_dir
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/result.rs:2173
+    deno_config::workspace::discovery::resolve_workspace_for_config_folder::{{closure}}
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/libs/config/glob/collector.rs:178
+    deno_config::workspace::discovery::handle_workspace_folder_with_members
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/libs/config/workspace/discovery.rs:898
+    deno_config::workspace::discovery::discover_workspace_config_files_for_single_dir
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/cli/lib.rs:?
+    deno_config::workspace::WorkspaceDirectory::discover
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/result.rs:2173
+    deno::lsp::config::ConfigData::load::{{closure}}
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/result.rs:966
+    deno::lsp::language_server::Inner::refresh_config_tree::{{closure}}::{{closure}}
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/cli/lsp/config.rs:2013
+    deno::lsp::language_server::Inner::refresh_config_tree::{{closure}}
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tracing-0.1.44/src/instrument.rs:321
+    <deno::lsp::language_server::LanguageServer as deno_tower_lsp::LanguageServer>::initialized::{{closure}}
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/cli/lsp/language_server.rs:4261
+    deno_tower_lsp::jsonrpc::router::Router<S,E>::method::{{closure}}::{{closure}}::{{closure}}
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/future.rs:133
+    <futures_util::future::future::Map<Fut,F> as core::future::future::Future>::poll
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.31/src/future/future/map.rs:55
+    <deno_tower_lsp::service::LspService<S> as tower_service::Service<deno_tower_lsp::jsonrpc::request::RequestWithCancellation>>::call::{{closure}}
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/deno_tower_lsp-0.5.0/src/service.rs:124
+    <core::future::poll_fn::PollFn<F> as core::future::future::Future>::poll
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.31/src/future/future/map.rs:55
+    deno::spawn_subcommand::{{closure}}
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/deno_tower_lsp-0.5.0/src/transport.rs:202
+    tokio::runtime::task::raw::poll
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.47.1/src/runtime/task/core.rs:?
+    deno::main
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:444
+    main
+        ??:?
+    std::sys::backtrace::__rust_begin_short_backtrace
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/sys/backtrace.rs:172
+    main
+        ??:?
+    _start
+        ??:?
+
+=== stack 2: 8192 opens (38.7%) ===
+    example path: /tmp/deno-stacktrace.93735/sample/packages
+    std::sys::fs::read_dir
+        /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/fs/unix.rs:2066
+    std::fs::read_dir
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/fs.rs:3312
+    sys_traits::impls::real::<impl sys_traits::BaseFsReadDir for sys_traits::impls::RealSys>::base_fs_read_dir
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/result.rs:2173
+    deno_config::workspace::discovery::resolve_workspace_for_config_folder::{{closure}}
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/libs/config/glob/collector.rs:178
+    deno_config::workspace::discovery::handle_workspace_folder_with_members
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/libs/config/workspace/discovery.rs:898
+    deno_config::workspace::discovery::discover_workspace_config_files_for_single_dir
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/cli/lib.rs:?
+    deno_config::workspace::WorkspaceDirectory::discover
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/result.rs:2173
+    deno::lsp::config::ConfigData::load::{{closure}}
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/result.rs:966
+    deno::lsp::language_server::Inner::refresh_config_tree::{{closure}}::{{closure}}
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/cli/lsp/config.rs:2013
+    deno::lsp::language_server::Inner::refresh_config_tree::{{closure}}
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tracing-0.1.44/src/instrument.rs:321
+    deno::lsp::language_server::Inner::did_change_configuration::{{closure}}::{{closure}}
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/cli/lsp/language_server.rs:1658
+    <deno::lsp::language_server::LanguageServer as deno_tower_lsp::LanguageServer>::did_change_configuration::{{closure}}
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tracing-0.1.44/src/instrument.rs:321
+    deno_tower_lsp::jsonrpc::router::Router<S,E>::method::{{closure}}::{{closure}}::{{closure}}
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/future.rs:133
+    <futures_util::future::future::Map<Fut,F> as core::future::future::Future>::poll
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.31/src/future/future/map.rs:55
+    <deno_tower_lsp::service::LspService<S> as tower_service::Service<deno_tower_lsp::jsonrpc::request::RequestWithCancellation>>::call::{{closure}}
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/deno_tower_lsp-0.5.0/src/service.rs:124
+    <core::future::poll_fn::PollFn<F> as core::future::future::Future>::poll
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.31/src/future/future/map.rs:55
+    deno::spawn_subcommand::{{closure}}
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/deno_tower_lsp-0.5.0/src/transport.rs:202
+    tokio::runtime::task::raw::poll
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.47.1/src/runtime/task/core.rs:?
+    deno::main
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:444
+    main
+        ??:?
+    std::sys::backtrace::__rust_begin_short_backtrace
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/sys/backtrace.rs:172
+    main
+        ??:?
+    _start
+        ??:?
+
+=== stack 3: 990 opens (4.7%) ===
+    example path: /tmp/deno-stacktrace.93735/sample/.venv-at-root
+    std::sys::fs::read_dir
+        /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/fs/unix.rs:2066
+    std::fs::read_dir
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/fs.rs:3312
+    deno::lsp::language_server::Inner::refresh_workspace_files
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/cli/lsp/language_server.rs:1147
+    <deno::lsp::language_server::LanguageServer as deno_tower_lsp::LanguageServer>::initialized::{{closure}}
+        /home/runner/work/deno-lsp-node-modules-repro/deno-lsp-node-modules-repro/deno/cli/lsp/language_server.rs:4261
+    deno_tower_lsp::jsonrpc::router::Router<S,E>::method::{{closure}}::{{closure}}::{{closure}}
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/future.rs:133
+    <futures_util::future::future::Map<Fut,F> as core::future::future::Future>::poll
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.31/src/future/future/map.rs:55
+    <deno_tower_lsp::service::LspService<S> as tower_service::Service<deno_tower_lsp::jsonrpc::request::RequestWithCancellation>>::call::{{closure}}
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/deno_tower_lsp-0.5.0/src/service.rs:124
+    <core::future::poll_fn::PollFn<F> as core::future::future::Future>::poll
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.31/src/future/future/map.rs:55
+    deno::spawn_subcommand::{{closure}}
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/deno_tower_lsp-0.5.0/src/transport.rs:202
+    tokio::runtime::task::raw::poll
+        /home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.47.1/src/runtime/task/core.rs:?
+    deno::main
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:444
+    main
+        ??:?
+    std::sys::backtrace::__rust_begin_short_backtrace
+        /home/runner/.rustup/toolchains/1.95.0-aarch64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/sys/backtrace.rs:172
+    main
+        ??:?
+    _start
+        ??:?
+
+probe log: /tmp/deno-stacktrace.93735/probe.log

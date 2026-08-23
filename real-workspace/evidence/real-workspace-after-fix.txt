@@ -1,0 +1,11 @@
+  documentSymbol             77303 ms   rss=1529 MB
+  definition                136402 ms   rss=2496 MB
+=== AFTER: real workspace with **/.venv excluded ===
+  total opendir: 42656
+  .venv opendir:  17290
+  refresh_compiler_options_resolver        13900 ms
+  refresh_config_tree                      37700 ms
+  walk_workspace                             340 ms
+AFTERDONE
+
+[exited with code 0]

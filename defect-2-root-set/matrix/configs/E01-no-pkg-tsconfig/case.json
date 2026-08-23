@@ -1,0 +1,5 @@
+{
+  "id": "E01-no-pkg-tsconfig",
+  "pkg_tsconfig": null,
+  "noise_at": ".venv"
+}

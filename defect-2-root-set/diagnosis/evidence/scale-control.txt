@@ -1,0 +1,7 @@
+n        arm             opendir untracked
+50       as-built            928      914
+50       vcs-ignored         420      406
+200      as-built           3006     2992
+200      vcs-ignored         998      984
+800      as-built           9008     8994
+800      vcs-ignored        1000      986

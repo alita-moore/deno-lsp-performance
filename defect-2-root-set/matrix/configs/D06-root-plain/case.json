@@ -1,0 +1,22 @@
+{
+  "id": "D06-root-plain",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "root_tsconfig": {
+    "exclude": [
+      "node_modules",
+      "app/.venv"
+    ]
+  },
+  "noise_at": ".venv"
+}

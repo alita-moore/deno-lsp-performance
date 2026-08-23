@@ -1,0 +1,17 @@
+{
+  "id": "F10-packages",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "noise_at": ".venv",
+  "packages": 10
+}

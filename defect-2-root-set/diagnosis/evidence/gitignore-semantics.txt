@@ -1,0 +1,9 @@
+arm            fmt include          src/  dist/  dist/sub/  dist/cache/  vendored/
+no-include     absent                  1      0          0            0          1
+literal-path   ["dist"]                0      1          1            0          0
+glob-path      ["**/dist"]             0      0          0            0          0
+literal-both   ["src","dist"]          1      1          1            0          0
+
+1 = the file was collected and reported unformatted; 0 = it was never collected.
+.gitignore names dist/ and cache/. Every file is badly formatted on purpose.
+deno fmt reaches the same FileCollector as the tsconfig root-set walk, with use_gitignore on.

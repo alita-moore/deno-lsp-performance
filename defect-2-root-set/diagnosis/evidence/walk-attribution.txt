@@ -1,0 +1,11 @@
+arm                 opendir    .venv     dist src/.cache
+as-built               3006     1382      804      806
+root-exclude           1400      580      402      404
+member-exclude         2604     1382      804      404
+all-excluded            998      580      402        2
+root-files-empty       1394      580      402      404
+no-root-tsconfig       1395      581      402      404
+root-include-glob      3005     1382      804      806
+root-include-path      1798      580      402      806
+
+tree: 200 directories per pkg dir in each of .venv, dist and src/.cache, per member

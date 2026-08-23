@@ -1,0 +1,16 @@
+{
+  "id": "A06-target",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "noise_at": "target"
+}

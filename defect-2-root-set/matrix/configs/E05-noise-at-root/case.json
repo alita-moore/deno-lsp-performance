@@ -1,0 +1,16 @@
+{
+  "id": "E05-noise-at-root",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "noise_at_root": ".venv"
+}

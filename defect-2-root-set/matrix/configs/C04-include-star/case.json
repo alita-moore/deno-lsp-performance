@@ -1,0 +1,12 @@
+{
+  "id": "C04-include-star",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "**/*"
+    ]
+  },
+  "noise_at": ".venv"
+}

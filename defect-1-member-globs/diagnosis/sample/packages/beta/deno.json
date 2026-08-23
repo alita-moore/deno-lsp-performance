@@ -1,0 +1,4 @@
+{
+  "name": "@sample/beta",
+  "exports": "./src/index.ts"
+}

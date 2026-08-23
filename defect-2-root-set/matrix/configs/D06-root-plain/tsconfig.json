@@ -1,0 +1,1 @@
+{"exclude": ["node_modules", "app/.venv"], "references": [{"path": "app"}]}

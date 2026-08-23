@@ -1,0 +1,330 @@
+
+ARENA 4 - choosing the mechanism for the tsconfig root-set collection
+seed=1  repeats=7  warmup=2  projection basis=1.544ms per opendir
+
+FIDELITY CONTROL: with every mechanism disabled this model is trace-identical, file-identical and
+member-identical to 2-simulators/deno.mjs on every preset in every condition. Two further controls abort the run:
+the local .gitignore matcher must agree with 3-fix-glob-expansion/arena on every path, and sharing one traversal
+across overlapping bases (R4) must leave the collected root set unchanged.
+
+The measured quantity is T2 + T3, the two collect_specifiers traversals that from_inner drives. T0 and T1
+belong to the other two defects and are reported as "rest" so nothing is smuggled between subsystems.
+
+
+condition A - as generated - root tsconfig carries references only, members exclude node_modules and dist
+
+  preset    candidate        T2    T3   T2+T3    gain   roots  dropped  recov  lost    proj
+  small     deno             22    10      32    0.0%      70        0      0     0    0.0s
+  small     R1               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R2               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R3               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R4               22     0      22   31.3%      70        0      0     0    0.0s
+  small     X1               22    10      32    0.0%      70        0      0     0    0.0s
+  small     X2               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R1+R4            22     0      22   31.3%      70        0      0     0    0.0s
+  small     R1+R3+R4         22     0      22   31.3%      70        0      0     0    0.0s
+  medium    deno           2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    R1              102    60     162   93.8%     540     1300      0     0    0.3s
+  medium    R2             2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    R3             2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    R4             2542     0    2542    2.3%    1840        0      0     0    3.9s
+  medium    X1             2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    X2             2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    R1+R4           102     0     102   96.1%     540     1300      0     0    0.2s
+  medium    R1+R3+R4        102     0     102   96.1%     540     1300      0     0    0.2s
+  large     deno          14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     R1              362   240     602   96.0%    2520     3600      0     0    0.9s
+  large     R2            14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     R3            14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     R4            14822     0   14822    1.6%    6120        0      0     0   22.9s
+  large     X1            14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     X2            14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     R1+R4           362     0     362   97.6%    2520     3600      0     0    0.6s
+  large     R1+R3+R4        362     0     362   97.6%    2520     3600      0     0    0.6s
+  reported  deno          29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  R1              320   212     532   98.2%    2491     7420      0     0    0.8s
+  reported  R2            29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  R3            29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  R4            29046     0   29046    0.7%    9911        0      0     0   44.8s
+  reported  X1            29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  X2            29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  R1+R4           320     0     320   98.9%    2491     7420      0     0    0.5s
+  reported  R1+R3+R4        320     0     320   98.9%    2491     7420      0     0    0.5s
+
+
+condition N - no exclude anywhere - the shape the reproduction uses
+
+  preset    candidate        T2    T3   T2+T3    gain   roots  dropped  recov  lost    proj
+  small     deno             22    10      32    0.0%      70        0      0     0    0.0s
+  small     R1               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R2               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R3               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R4               22     0      22   31.3%      70        0      0     0    0.0s
+  small     X1               22    10      32    0.0%      70        0      0     0    0.0s
+  small     X2               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R1+R4            22     0      22   31.3%      70        0      0     0    0.0s
+  small     R1+R3+R4         22     0      22   31.3%      70        0      0     0    0.0s
+  medium    deno           2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    R1              102    60     162   93.8%     540     1300      0     0    0.3s
+  medium    R2             2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    R3             2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    R4             2542     0    2542    2.3%    1840        0      0     0    3.9s
+  medium    X1             2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    X2             2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    R1+R4           102     0     102   96.1%     540     1300      0     0    0.2s
+  medium    R1+R3+R4        102     0     102   96.1%     540     1300      0     0    0.2s
+  large     deno          14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     R1              362   240     602   96.0%    2520     3600      0     0    0.9s
+  large     R2            14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     R3            14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     R4            14822     0   14822    1.6%    6120        0      0     0   22.9s
+  large     X1            14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     X2            14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     R1+R4           362     0     362   97.6%    2520     3600      0     0    0.6s
+  large     R1+R3+R4        362     0     362   97.6%    2520     3600      0     0    0.6s
+  reported  deno          29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  R1              320   212     532   98.2%    2491     7420      0     0    0.8s
+  reported  R2            29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  R3            29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  R4            29046     0   29046    0.7%    9911        0      0     0   44.8s
+  reported  X1            29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  X2            29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  R1+R4           320     0     320   98.9%    2491     7420      0     0    0.5s
+  reported  R1+R3+R4        320     0     320   98.9%    2491     7420      0     0    0.5s
+
+
+condition X - the user wrote it down - root tsconfig exclude [".venv", ".cache", "dist"], bare names
+
+  preset    candidate        T2    T3   T2+T3    gain   roots  dropped  recov  lost    proj
+  small     deno             22    10      32    0.0%      70        0      0     0    0.0s
+  small     R1               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R2               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R3               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R4               22     0      22   31.3%      70        0      0     0    0.0s
+  small     X1               22    10      32    0.0%      70        0      0     0    0.0s
+  small     X2               22    10      32    0.0%      70        0      0     0    0.0s
+  small     R1+R4            22     0      22   31.3%      70        0      0     0    0.0s
+  small     R1+R3+R4         22     0      22   31.3%      70        0      0     0    0.0s
+  medium    deno           2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    R1              102    60     162   93.8%     540     1300      0     0    0.3s
+  medium    R2             2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    R3             2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    R4             2542     0    2542    2.3%    1840        0      0     0    3.9s
+  medium    X1             2542    60    2602    0.0%    1840        0      0     0    4.0s
+  medium    X2              102    60     162   93.8%     540     1300      0     0    0.3s
+  medium    R1+R4           102     0     102   96.1%     540     1300      0     0    0.2s
+  medium    R1+R3+R4        102     0     102   96.1%     540     1300      0     0    0.2s
+  large     deno          14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     R1              362   240     602   96.0%    2520     3600      0     0    0.9s
+  large     R2            14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     R3            14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     R4            14822     0   14822    1.6%    6120        0      0     0   22.9s
+  large     X1            14822   240   15062    0.0%    6120        0      0     0   23.3s
+  large     X2              362   240     602   96.0%    2520     3600      0     0    0.9s
+  large     R1+R4           362     0     362   97.6%    2520     3600      0     0    0.6s
+  large     R1+R3+R4        362     0     362   97.6%    2520     3600      0     0    0.6s
+  reported  deno          29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  R1              320   212     532   98.2%    2491     7420      0     0    0.8s
+  reported  R2            29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  R3            29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  R4            29046     0   29046    0.7%    9911        0      0     0   44.8s
+  reported  X1            29046   212   29258    0.0%    9911        0      0     0   45.2s
+  reported  X2              320   212     532   98.2%    2491     7420      0     0    0.8s
+  reported  R1+R4           320     0     320   98.9%    2491     7420      0     0    0.5s
+  reported  R1+R3+R4        320     0     320   98.9%    2491     7420      0     0    0.5s
+
+
+condition I - the user narrowed include - root tsconfig include ["packages/*/src"]
+
+  preset    candidate        T2    T3   T2+T3    gain   roots  dropped  recov  lost    proj
+  small     deno             21    10      31    0.0%      65        0      0     0    0.0s
+  small     R1               21    10      31    0.0%      65        0      0     0    0.0s
+  small     R2               21    10      31    0.0%      65        0      0     0    0.0s
+  small     R3                6    10      16   48.4%      65        0      0     0    0.0s
+  small     R4               21     0      21   32.3%      65        0      0     0    0.0s
+  small     X1               21    10      31    0.0%      65        0      0     0    0.0s
+  small     X2               21    10      31    0.0%      65        0      0     0    0.0s
+  small     R1+R4            21     0      21   32.3%      65        0      0     0    0.0s
+  small     R1+R3+R4          6    10      16   48.4%      65        0      0     0    0.0s
+  medium    deno           2541    60    2601    0.0%     520        0      0     0    4.0s
+  medium    R1              101    60     161   93.8%     520        0      0     0    0.2s
+  medium    R2             2541    60    2601    0.0%     520        0      0     0    4.0s
+  medium    R3               21    60      81   96.9%     520        0      0     0    0.1s
+  medium    R4             2541     0    2541    2.3%     520        0      0     0    3.9s
+  medium    X1             2541    60    2601    0.0%     520        0      0     0    4.0s
+  medium    X2             2541    60    2601    0.0%     520        0      0     0    4.0s
+  medium    R1+R4           101     0     101   96.1%     520        0      0     0    0.2s
+  medium    R1+R3+R4         21    60      81   96.9%     520        0      0     0    0.1s
+  large     deno          14821   240   15061    0.0%    2460        0      0     0   23.3s
+  large     R1              361   240     601   96.0%    2460        0      0     0    0.9s
+  large     R2            14821   240   15061    0.0%    2460        0      0     0   23.3s
+  large     R3               61   240     301   98.0%    2460        0      0     0    0.5s
+  large     R4            14821     0   14821    1.6%    2460        0      0     0   22.9s
+  large     X1            14821   240   15061    0.0%    2460        0      0     0   23.3s
+  large     X2            14821   240   15061    0.0%    2460        0      0     0   23.3s
+  large     R1+R4           361     0     361   97.6%    2460        0      0     0    0.6s
+  large     R1+R3+R4         61   240     301   98.0%    2460        0      0     0    0.5s
+  reported  deno          29045   212   29257    0.0%    2438        0      0     0   45.2s
+  reported  R1              319   212     531   98.2%    2438        0      0     0    0.8s
+  reported  R2            29045   212   29257    0.0%    2438        0      0     0   45.2s
+  reported  R3               54   212     266   99.1%    2438        0      0     0    0.4s
+  reported  R4            29045     0   29045    0.7%    2438        0      0     0   44.8s
+  reported  X1            29045   212   29257    0.0%    2438        0      0     0   45.2s
+  reported  X2            29045   212   29257    0.0%    2438        0      0     0   45.2s
+  reported  R1+R4           319     0     319   98.9%    2438        0      0     0    0.5s
+  reported  R1+R3+R4         54   212     266   99.1%    2438        0      0     0    0.4s
+
+
+condition F - the repository-side mitigation - root tsconfig files: []
+
+  preset    candidate        T2    T3   T2+T3    gain   roots  dropped  recov  lost    proj
+  small     deno              0    10      10    0.0%      65        0      0     0    0.0s
+  small     R1                0    10      10    0.0%      65        0      0     0    0.0s
+  small     R2                0    10      10    0.0%      65        0      0     0    0.0s
+  small     R3                0    10      10    0.0%      65        0      0     0    0.0s
+  small     R4                0    10      10    0.0%      65        0      0     0    0.0s
+  small     X1                0    10      10    0.0%      65        0      0     0    0.0s
+  small     X2                0    10      10    0.0%      65        0      0     0    0.0s
+  small     R1+R4             0    10      10    0.0%      65        0      0     0    0.0s
+  small     R1+R3+R4          0    10      10    0.0%      65        0      0     0    0.0s
+  medium    deno              0    60      60    0.0%     520        0      0     0    0.1s
+  medium    R1                0    60      60    0.0%     520        0      0     0    0.1s
+  medium    R2                0    60      60    0.0%     520        0      0     0    0.1s
+  medium    R3                0    60      60    0.0%     520        0      0     0    0.1s
+  medium    R4                0    60      60    0.0%     520        0      0     0    0.1s
+  medium    X1                0    60      60    0.0%     520        0      0     0    0.1s
+  medium    X2                0    60      60    0.0%     520        0      0     0    0.1s
+  medium    R1+R4             0    60      60    0.0%     520        0      0     0    0.1s
+  medium    R1+R3+R4          0    60      60    0.0%     520        0      0     0    0.1s
+  large     deno              0   240     240    0.0%    2460        0      0     0    0.4s
+  large     R1                0   240     240    0.0%    2460        0      0     0    0.4s
+  large     R2                0   240     240    0.0%    2460        0      0     0    0.4s
+  large     R3                0   240     240    0.0%    2460        0      0     0    0.4s
+  large     R4                0   240     240    0.0%    2460        0      0     0    0.4s
+  large     X1                0   240     240    0.0%    2460        0      0     0    0.4s
+  large     X2                0   240     240    0.0%    2460        0      0     0    0.4s
+  large     R1+R4             0   240     240    0.0%    2460        0      0     0    0.4s
+  large     R1+R3+R4          0   240     240    0.0%    2460        0      0     0    0.4s
+  reported  deno              0   212     212    0.0%    2438        0      0     0    0.3s
+  reported  R1                0   212     212    0.0%    2438        0      0     0    0.3s
+  reported  R2                0   212     212    0.0%    2438        0      0     0    0.3s
+  reported  R3                0   212     212    0.0%    2438        0      0     0    0.3s
+  reported  R4                0   212     212    0.0%    2438        0      0     0    0.3s
+  reported  X1                0   212     212    0.0%    2438        0      0     0    0.3s
+  reported  X2                0   212     212    0.0%    2438        0      0     0    0.3s
+  reported  R1+R4             0   212     212    0.0%    2438        0      0     0    0.3s
+  reported  R1+R3+R4          0   212     212    0.0%    2438        0      0     0    0.3s
+
+
+SEED STABILITY - T2+T3, dropped and lost at seeds 1, 2, 3
+
+  small     identical at every seed
+  medium    identical at every seed
+  large     identical at every seed
+  reported  identical at every seed
+
+
+FALSE NEGATIVES - what each candidate stops seeding, and whether the module graph recovers it
+
+  case                      candidate      T2+T3  dropped  recov  lost  subject
+  orphan-in-ignored         deno             206        0      0     0  seed
+  orphan-in-ignored         R1                 4      201      0     0  gone
+  orphan-in-ignored         R2               206        0      0     0  seed
+  orphan-in-ignored         R3               206        0      0     0  seed
+  orphan-in-ignored         R4               205        0      0     0  seed
+  orphan-in-ignored         X1               206        0      0     0  seed
+  orphan-in-ignored         X2               206        0      0     0  seed
+  orphan-in-ignored         R1+R4              3      201      0     0  gone
+  orphan-in-ignored         R1+R3+R4           3      201      0     0  gone
+
+  imported-from-ignored     deno             206        0      0     0  seed
+  imported-from-ignored     R1                 4      201      1     0  graph
+  imported-from-ignored     R2               206        0      0     0  seed
+  imported-from-ignored     R3               206        0      0     0  seed
+  imported-from-ignored     R4               205        0      0     0  seed
+  imported-from-ignored     X1               206        0      0     0  seed
+  imported-from-ignored     X2               206        0      0     0  seed
+  imported-from-ignored     R1+R4              3      201      1     0  graph
+  imported-from-ignored     R1+R3+R4           3      201      1     0  graph
+
+  generated-js-imported     deno             206        0      0     0  seed
+  generated-js-imported     R1                 4      201      1     0  graph
+  generated-js-imported     R2               206        0      0     0  seed
+  generated-js-imported     R3               206        0      0     0  seed
+  generated-js-imported     R4               205        0      0     0  seed
+  generated-js-imported     X1               206        0      0     0  seed
+  generated-js-imported     X2               206        0      0     0  seed
+  generated-js-imported     R1+R4              3      201      1     0  graph
+  generated-js-imported     R1+R3+R4           3      201      1     0  graph
+
+  include-names-untracked   deno             408        0      0     0  seed
+  include-names-untracked   R1               206        0      0     0  seed
+  include-names-untracked   R2               408        0      0     0  seed
+  include-names-untracked   R3               408        0      0     0  seed
+  include-names-untracked   R4               205        0      0     0  seed
+  include-names-untracked   X1               408        0      0     0  seed
+  include-names-untracked   X2               408        0      0     0  seed
+  include-names-untracked   R1+R4            205        0      0     0  seed
+  include-names-untracked   R1+R3+R4         205        0      0     0  seed
+
+  member-inside-ignored     deno               8        0      0     0  seed
+  member-inside-ignored     R1                 3        0      0     0  seed
+  member-inside-ignored     R2                 8        0      0     0  seed
+  member-inside-ignored     R3                 8        0      0     0  seed
+  member-inside-ignored     R4                 6        0      0     0  seed
+  member-inside-ignored     X1                 8        0      0     0  seed
+  member-inside-ignored     X2                 8        0      0     0  seed
+  member-inside-ignored     R1+R4              3        0      0     0  seed
+  member-inside-ignored     R1+R3+R4           3        0      0     0  seed
+
+  member-no-include         deno               6        0      0     0  seed
+  member-no-include         R1                 1        1      0     1  gone
+  member-no-include         R2                 6        0      0     0  seed
+  member-no-include         R3                 6        0      0     0  seed
+  member-no-include         R4                 4        0      0     0  seed
+  member-no-include         X1                 6        0      0     0  seed
+  member-no-include         X2                 6        0      0     0  seed
+  member-no-include         R1+R4              1        1      0     1  gone
+  member-no-include         R1+R3+R4           1        1      0     1  gone
+
+  tracked-only              deno               4        0      0     0  seed
+  tracked-only              R1                 4        0      0     0  seed
+  tracked-only              R2                 4        0      0     0  seed
+  tracked-only              R3                 4        0      0     0  seed
+  tracked-only              R4                 3        0      0     0  seed
+  tracked-only              X1                 4        0      0     0  seed
+  tracked-only              X2                 4        0      0     0  seed
+  tracked-only              R1+R4              3        0      0     0  seed
+  tracked-only              R1+R3+R4           3        0      0     0  seed
+
+
+RANKING - condition N, reported preset
+
+  candidate     invasive    gain  gain/point  lost  site
+  R1                   3   98.2%        32.7     1  cli/util/fs.rs:135 collect_specifiers, .use_gitignore() on the builder chain
+  R1+R4                4   98.9%        24.7     1  cli/util/fs.rs:135 collect_specifiers, .use_gitignore() on the builder chain + cli/lsp/compiler_options.rs:91 from_inner, ts_config_roots_cache
+  R1+R3+R4             5   98.9%        19.8     1  cli/util/fs.rs:135 collect_specifiers, .use_gitignore() on the builder chain + libs/config/glob/collector.rs:177 collect_file_patterns + cli/lsp/compiler_options.rs:91 from_inner, ts_config_roots_cache
+  R4                   1    0.7%         0.7     0  cli/lsp/compiler_options.rs:91 from_inner, ts_config_roots_cache
+  R2                   2    0.0%         0.0     0  cli/lsp/compiler_options.rs:102 vendor_folder
+  R3                   1    0.0%         0.0     0  libs/config/glob/collector.rs:177 collect_file_patterns
+  X1                   0    0.0%         0.0     0  already implemented
+  X2                   3    0.0%         0.0     0  libs/config/glob/mod.rs PathOrPattern::from_relative
+
+
+SCALE - untracked mass inside the tsconfig bases, everything else held fixed
+
+   venv/member     dirs     deno      R2      R3      R4      X2      R1   R1+R4
+             0     7699     585     585     585     373     585     532     320
+            30    14059    6945    6945    6945    6733    6945     532     320
+           120    33139   26025   26025   26025   25813   26025     532     320
+           480   109459  102345  102345  102345  102133  102345     532     320
+
+  least-squares slope, opens per untracked directory added inside a member
+
+  deno        m = 212.000 per package of .venv per member
+  R1          m = 0.000 per package of .venv per member
+  R2          m = 212.000 per package of .venv per member
+  R3          m = 212.000 per package of .venv per member
+  R4          m = 212.000 per package of .venv per member
+  X2          m = 212.000 per package of .venv per member
+  R1+R4       m = 0.000 per package of .venv per member

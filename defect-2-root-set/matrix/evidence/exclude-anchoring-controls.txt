@@ -1,0 +1,4 @@
+  control                            root exclude   tree at     opendir  into_tree
+  H1-root-bare-tree-at-root          .venv          <root>          408        401
+  H2-root-glob-tree-at-root          **/.venv       <root>          408        401
+  H3-root-bare-tree-in-pkg           .venv          app             809        802

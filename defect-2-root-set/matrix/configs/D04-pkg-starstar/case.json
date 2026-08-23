@@ -1,0 +1,16 @@
+{
+  "id": "D04-pkg-starstar",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "**/.venv/**"
+    ]
+  },
+  "noise_at": ".venv"
+}

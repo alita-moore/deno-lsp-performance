@@ -1,0 +1,12 @@
+{
+  "id": "C06-no-exclude-at-all",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ]
+  },
+  "noise_at": ".venv"
+}

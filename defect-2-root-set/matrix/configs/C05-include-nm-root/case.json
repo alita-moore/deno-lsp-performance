@@ -1,0 +1,21 @@
+{
+  "id": "C05-include-nm-root",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "root_tsconfig": {
+    "include": [
+      "node_modules"
+    ]
+  },
+  "noise_at": "node_modules"
+}

@@ -1,0 +1,24 @@
+  documentSymbol            208148 ms   rss=1528 MB
+  definition                171142 ms   rss=2487 MB
+=== opendir totals ===
+  total opendir: 51315
+  distinct dirs: 16576
+=== how many times is the SAME dir opened (walk multiplicity) ===
+     381 dirs opened 1 times
+      61 dirs opened 2 times
+   13861 dirs opened 3 times
+    2181 dirs opened 4 times
+      47 dirs opened 5 times
+      45 dirs opened 6 times
+=== which trees get walked most ===
+  27850 <workspace>/ml-serving
+  10853 <workspace>/infra
+   9847 <workspace>/libs
+   2345 <workspace>/apps
+    293 <workspace>/research
+     39 <workspace>/prod
+     37 <workspace>/domain
+     13 <workspace>/~
+DIRDONE2
+
+[exited with code 0]

@@ -1,0 +1,16 @@
+{
+  "id": "D01-pkg-plain",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      ".venv"
+    ]
+  },
+  "noise_at": ".venv"
+}

@@ -1,0 +1,4 @@
+  harness/opendirbench.py, 3000 directories per root, dentry cache warm from prior runs
+  first root: Docker Desktop bind mount.  second root: local ext4.
+  <workspace>/ml-serving               3000 dirs        649 ms    0.216 ms/dir
+  <home>                                                    3000 dirs        495 ms    0.165 ms/dir

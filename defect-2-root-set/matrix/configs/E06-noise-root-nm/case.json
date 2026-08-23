@@ -1,0 +1,16 @@
+{
+  "id": "E06-noise-root-nm",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "noise_at_root": "node_modules"
+}

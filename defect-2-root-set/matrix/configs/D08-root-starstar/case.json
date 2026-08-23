@@ -1,0 +1,22 @@
+{
+  "id": "D08-root-starstar",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "root_tsconfig": {
+    "exclude": [
+      "node_modules",
+      "**/.venv/**"
+    ]
+  },
+  "noise_at": ".venv"
+}

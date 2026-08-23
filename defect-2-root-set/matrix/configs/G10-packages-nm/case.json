@@ -1,0 +1,17 @@
+{
+  "id": "G10-packages-nm",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "noise_at": "node_modules",
+  "packages": 10
+}

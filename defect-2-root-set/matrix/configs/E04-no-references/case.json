@@ -1,0 +1,22 @@
+{
+  "id": "E04-no-references",
+  "pkg_tsconfig": {
+    "compilerOptions": {
+      "composite": true
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "root_tsconfig": {
+    "references": [],
+    "exclude": [
+      "node_modules"
+    ]
+  },
+  "noise_at": ".venv"
+}
