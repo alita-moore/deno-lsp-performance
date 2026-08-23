@@ -346,6 +346,14 @@ request load, which is the load defect 6's per-request clone is predicted to
 matter under, and it is consistent with that prediction. **It is not evidence for
 it**, and it must not be quoted as a result.
 
+It also cuts against the trend in the two measured editor arms above, where
+memory rose as patches were added. Nothing here reconciles the two, and only one
+of them is a measurement. Two mechanisms in the six-patch binary would each
+predict a fall — defect 6 removes the per-request clone, and defect 5 reduces the
+member count, which defect 6 measures configuration-time memory to be linear in —
+but no arm here distinguishes them, or establishes that either is what the user
+observed.
+
 ## Running it
 
 ```

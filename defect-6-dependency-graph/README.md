@@ -505,6 +505,19 @@ scaling law. It has no `node_modules`, so it cannot say anything about
 figure is per request *in flight*, not per request. A client that never overlaps
 requests pays it once.
 
-**The patch is verified to compile, not to behave.** No binary carrying it was
-built and no arm was run against one. Every figure in "what it should be worth"
-is a prediction derived from the live-heap split, and is labelled as one.
+**The predictions below are still untested.** Every figure in "what it should be
+worth" is derived from the live-heap split, and is labelled as a prediction.
+
+A binary carrying this patch has since been built and run against the real
+workspace (the six-patch session in
+[`../real-workspace/README.md`](../real-workspace/README.md)), but that probe is
+a single document-symbol and definition cycle, so it does not exercise the
+sustained-request load this patch targets. It therefore neither confirms nor
+refutes the table.
+
+One thing it did disturb: `lsp.did_change_configuration` was named above as the
+falsifier — if it moved, the attribution here would be wrong. It did move,
+2,856 ms to 1,504 ms. That arm also carries defect 5, which changes workspace
+membership and legitimately reduces config work, so the two are confounded and
+the session cannot attribute the drop to either. The falsifier is therefore
+disturbed but not resolved, and this remains open.

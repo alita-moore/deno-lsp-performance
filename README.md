@@ -5,11 +5,11 @@ opens**, 103 seconds inside `refresh_compiler_options_resolver` and 59 seconds
 inside `refresh_config_tree`. Enumerating every file in that workspace takes
 **221 ms**. The gap between those two figures is work nothing asked for.
 
-There are **six defects**. Five have patches, built from a clean `v2.9.5`
-checkout and measured on the real workspace. The sixth has no fix — only an
-instrument, an environment-variable gate that *skips* the work rather than
-removing the redundancy, showing that about 20 seconds of `op_script_names` is
-apparently redundant.
+There are **six defects**. Five carry a patch, applied to a clean `v2.9.5`
+checkout and measured on the real workspace. The remaining one — defect 4 — has
+no fix at all, only an instrument: an environment-variable gate that *skips* the
+work rather than removing the redundancy, showing that about 20 seconds of
+`op_script_names` is apparently redundant.
 
 With all six applied the first `documentSymbol` after opening a file goes from
 **120.5 s to 18.6 s**, a factor of 6.5, and the `did_change_configuration` span
@@ -23,9 +23,13 @@ number anyone should be satisfied with, and nothing here claims the remaining
 time is irreducible — only that it was not what this study chased.
 
 **There are likely more problems beneath the surface.** Six defects came out of
-pulling on one thread — a single slow go-to-definition — and each one was found
-while measuring the last. Nothing about the way the sixth was reached suggests
-the thread ended; it suggests the measurement stopped.
+pulling on one thread — a single slow go-to-definition — and each was found while
+measuring the ones before it: defect 6 exists because the first four patches did
+not fix the memory. A seventh is already named and not investigated here, in
+[defect 5's open questions](defect-5-workspace-inert/README.md#what-is-not-settled)
+— `deno.documentPreloadLimit` no longer does anything, because the workspace file
+walk's limit is hardcoded. Nothing suggests the thread ended. It suggests the
+measuring stopped.
 
 **None of these are recommended production patches.** Every patch here is the
 smallest change that isolates and demonstrates its defect, chosen so that the
@@ -207,8 +211,9 @@ Three things this session does **not** establish:
 
 Each figure belongs to a patch group. M5 and R1 move the directory opens; the
 lazy dependency resolutions move `did_change_configuration`; the export-key gate
-moves `op_script_names` and half of `documentSymbol`; defect 5 moves member count
-and defect 6 moves per-request memory.
+moves `op_script_names` and half of `documentSymbol`. Defect 5 reduces the member
+count and defect 6 is aimed at memory held per request in flight — the arms here
+separate neither.
 
 ## Memory
 
@@ -222,8 +227,18 @@ against the real workspace reached **8.2 GB with M5+R1 and 10.6 GB in 72 seconds
 with all four**, against 6.1 MB of workspace TypeScript and 348 MB of
 `node_modules` declaration files. The furthest any instrumented arm reached is
 **4.6 GB**, with eight requests in flight. Anyone quoting a measured figure
-should quote 4.6 GB. Details, and a single user's subjective impression of the
-six-patch binary in an editor — which is not a measurement — are in
+should quote 4.6 GB.
+
+**One user's subjective impression, which is not a measurement.** With the
+six-patch binary in a real editor, a single user reports that the language server
+settles at roughly **3 GB** resident after warmup, against the 8–10 GB range
+above, and that the editor is noticeably more responsive. There is no
+instrumented capture behind that, no controlled arm, no repeat, and "after
+warmup" is a judgement rather than a defined sampling point. It is recorded
+because it is the only observation of the six-patch binary under an editor's
+request load — the load defect 6's per-request clone is predicted to matter under
+— and because it is consistent with that prediction. **It is not evidence for
+it.** The full account is in
 [`real-workspace/`](real-workspace/README.md#memory).
 
 ## How to read the numbers
@@ -307,7 +322,7 @@ fixtures need only `node`.
   6's prediction is about sustained concurrent load. No arm has tested it.
 - **What defect 5's patch is worth on the real workspace.** Its cost sweep is on
   synthetic workspaces, and in the six-patch arm it is confounded with defect 6.
-- **Defects 3 and 4 have no arena and no model.** The mechanism comparison, the
+- **Not every defect has an arena and a model.** The mechanism comparison, the
   adversarial workspaces, the false-negative tables and the calibrated simulators
   cover defects 1, 2 and 5. Defect 3 is a code change argued from what the code
   does; defect 4 is one measurement; defect 6 rests on an ablation, a heap

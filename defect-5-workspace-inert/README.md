@@ -158,9 +158,14 @@ is why the edit is this contained.
 
 ## What is not settled
 
-- **No patched language server was built.** The `deno_config` crate builds in
-  half a minute; the CLI needs far more disk than was available. So every cost
-  figure here comes from a stock traced binary with a **configuration stand-in**
+- **The cost figures here were taken without a patched language server.** The
+  `deno_config` crate builds in half a minute; the CLI needs far more disk than
+  was available at the time. A binary carrying this patch has since been built
+  and measured — see the six-patch session in
+  [`../real-workspace/README.md`](../real-workspace/README.md) — but its results
+  are not reflected below, and that session cannot separate this defect's
+  contribution from defect 6's. So every cost figure here still comes from a
+  stock traced binary with a **configuration stand-in**
   for the fix — a root `package.json` with no `workspaces` field — which
   reproduces the member set exactly and the traversal not at all. The stand-in's
   fidelity for membership is not assumed: it is checked against the patched
